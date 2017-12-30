@@ -3,21 +3,25 @@ using System.Collections.Generic;
 
 namespace nHetmans
 {
-    internal class Program
+    public class Hetmans : IProblem<byte[]>
     {
-        public static byte[] GenerateState(byte size)
+        public byte[] InitialState { get; }
+        public bool IsGoal(byte[] state)
         {
-            byte[] state = new byte[size];
-            Random random = new Random();
-            for (byte i = 0; i < size; i++)
-            {
-                state[i] = (byte)random.Next(0, size);
-            }
-
-            return state;
+            throw new System.NotImplementedException();
         }
 
-        public static void ShowState(byte[] state)
+        public bool Compare(byte[] stateOfNode, byte[] checkingState)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IList<byte[]> Expand(byte[] state)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void showState(byte[] state)
         {
             byte size = (byte)state.GetLength(0);
 
@@ -40,18 +44,6 @@ namespace nHetmans
                 }
                 Console.Write("\n");
             }
-            
-        }
-        
-        public static void Main(string[] args)
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-
-            byte size = 8;
-            byte[] initialState = GenerateState(size);
-            ShowState(initialState);
-            
-            
         }
     }
 }
