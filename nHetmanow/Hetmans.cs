@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Deployment.Internal;
+using System.Runtime.Remoting.Messaging;
 
 namespace nHetmans
 {
@@ -19,46 +22,49 @@ namespace nHetmans
 
         public bool IsGoal(byte[] state)
         {
-            bool isFinal;
-            byte sizeOfState = (byte) state.GetLength(0);
-            if (CheckHorizontally(state) == false) return false;
+            if (CountOfConflicts(state) == 0) return true;
+            return false;
+        }
 
+        public int CountOfConflicts(byte[] state)
+        {
+            byte sizeOfState = (byte) state.Length;
+            
+            int conflicts = 0;
+            conflicts += CheckHorizontally(state);
             for (byte column = 0; column < sizeOfState; column++)
             {
-                isFinal = CheckDiagonals(state, column);
-                if (isFinal == false) return isFinal;
+                for (int j = 1; j + column < sizeOfState; j++) //skos prawo
+                {
+                    if (state[column + j] == state[column] + j)
+                        conflicts++;
+                    if (state[column + j] == state[column] - j)
+                        conflicts++;
+                }
+                for (int j = 1; column - j > 0; j++) //skos w lewo??
+                {
+                    if (state[column - j] == state[column] + j)
+                        conflicts++;
+                    if (state[column - j] == state[column] - j)
+                        conflicts++;
+                }
             }
-
-            return isFinal;
+            return conflicts;
         }
 
-        public bool CheckDiagonals(byte[] state, byte testedIndex)
+        public int CheckHorizontally(byte[] state)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CheckLeftDiagonal(byte[] state, byte testedIndex)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CheckRightDiagonal(byte[] state, byte testedIndex)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool CheckHorizontally(byte[] state)
-        {
-            byte sizeOfState = (byte) state.GetLength(0);
+            int conflicts = 0;
+            byte sizeOfState = (byte) state.Length;
             List<byte> visited = new List<byte>();
 
             for (int column = 0; column < sizeOfState; column++)
             {
-                if (visited.Contains(state[column])) return false;
+                if (visited.Contains(state[column])) conflicts++;
                 visited.Add(state[column]);
             }
 
-            return true;
+            return conflicts;
         }
 
         public bool Compare(byte[] stateOfNode, byte[] checkingState)
