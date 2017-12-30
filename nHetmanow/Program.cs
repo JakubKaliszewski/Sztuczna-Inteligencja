@@ -49,9 +49,24 @@ namespace nHetmans
 
             byte size = 8;
             byte[] initialState = GenerateState(size);
-            ShowState(initialState);
+            
+            Hetmans problemHetmans = new Hetmans(initialState);
+            problemHetmans.ShowState(problemHetmans.InitialState);
+            ///Metoda Szukania - kolejka
+            QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
             
             
+            var result = TreeSearch.TreeSearchWithQueue(problemHetmans, queueSolution);
+            if (result == null)
+            {
+                Console.WriteLine("\nNo solutions!");
+            }
+            else
+            {
+                Console.WriteLine("\nGoal State: \n");
+                ShowState(result.StateOfNode);
+            }
+            Console.ReadKey();
         }
     }
 }
