@@ -8,28 +8,10 @@ namespace nHetmanow
         public static byte[] GenerateState(byte size)
         {
             byte[] state = new byte[size];
+            Random random = new Random();
             for (byte i = 0; i < size; i++)
             {
-                state[i] = i;
-            }
-
-            return MixState(state, 20);
-        }
-
-        public static byte[] MixState(byte[] state, byte numberOfMixes)
-        {
-            byte randomNumber1, randomNumber2 ,tmpValue;
-            byte size = (byte)state.GetLength(0);
-            Random random = new Random();
-
-            for (byte i = 0; i < numberOfMixes; i++)
-            {
-                randomNumber1 = (byte)random.Next(0, size);
-                randomNumber2 = (byte)random.Next(0, size);
-
-                tmpValue = state[randomNumber1];
-                state[randomNumber1] = state[randomNumber2];
-                state[randomNumber2] = tmpValue;
+                state[i] = (byte)random.Next(0, size);
             }
 
             return state;
@@ -54,7 +36,7 @@ namespace nHetmanow
                     {
                         Console.Write('\u25FE' + " ");             
                     }
-                    Console.Write("  ");
+                    else Console.Write("  ");
                 }
                 Console.Write("\n");
             }
