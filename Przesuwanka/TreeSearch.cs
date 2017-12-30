@@ -20,7 +20,7 @@ namespace Przesuwanka
                 foreach(State actualState in problem.Expand(node.StateOfNode))///foreach-a z możliwymy stanami, to tam sprawdzam czy dany stan z IListy
                     /// już nie wystąpił, wywołując OnPathToRoot,
                 {
-                    //Console.Write(".");
+                    Console.Write(".");
                     
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))//Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
