@@ -9,6 +9,7 @@ namespace nHetmans
         {
             byte size = (byte)state.GetLength(0);
 
+            Console.Write("  ");
             for (byte i = 0; i < size; i++)// 0 1 2 3 4 5 6 7 - naglowek 
             {
                 Console.Write(i + " ");
@@ -22,7 +23,8 @@ namespace nHetmans
                 {
                     if (state[column] == row)
                     {
-                        Console.Write('\u25A0' + " ");        
+                        Console.Write('\u25A0' + " ");   
+                        //Console.Write('H' + " ");
                     }
                     else Console.Write("  ");
                 }
