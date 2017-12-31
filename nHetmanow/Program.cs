@@ -5,18 +5,6 @@ namespace nHetmans
 {
     internal class Program
     {
-        public static byte[] GenerateState(byte size)
-        {
-            byte[] state = new byte[size];
-            Random random = new Random();
-            for (byte i = 0; i < size; i++)
-            {
-                state[i] = (byte)random.Next(0, size);
-            }
-
-            return state;
-        }
-
         public static void ShowState(byte[] state)
         {
             byte size = (byte)state.GetLength(0);
@@ -48,9 +36,8 @@ namespace nHetmans
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
             byte size = 8;
-            byte[] initialState = GenerateState(size);
             
-            Hetmans problemHetmans = new Hetmans(initialState);
+            Hetmans problemHetmans = new Hetmans(size);
             problemHetmans.ShowState(problemHetmans.InitialState);
             ///Metoda Szukania - kolejka
             QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();

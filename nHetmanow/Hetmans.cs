@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Deployment.Internal;
-using System.Runtime.Remoting.Messaging;
 
 namespace nHetmans
 {
@@ -10,14 +7,27 @@ namespace nHetmans
     {
         private byte[] initial;
 
-        public Hetmans(byte[] initialState)
+        public Hetmans(byte size)
         {
-            this.initial = initialState;
+            initial = GenerateState(size);
         }
 
         public byte[] InitialState
         {
-            get { return this.initial; }
+            get { return initial; }
+        }
+
+
+        public byte[] GenerateState(byte size)
+        {
+            byte[] state = new byte[size];
+            Random random = new Random();
+            for (byte i = 0; i < size; i++)
+            {
+                state[i] = (byte) random.Next(0, size);
+            }
+
+            return state;
         }
 
         public bool IsGoal(byte[] state)
@@ -29,26 +39,28 @@ namespace nHetmans
         public int CountOfConflicts(byte[] state)
         {
             byte sizeOfState = (byte) state.Length;
-            
+
             int conflicts = 0;
             conflicts += CheckHorizontally(state);
             for (byte column = 0; column < sizeOfState; column++)
             {
-                for (int j = 1; j + column < sizeOfState; j++) //skos prawo
+                for (int value = 1; value + column < sizeOfState; value++) //skos prawo
                 {
-                    if (state[column + j] == state[column] + j)
+                    if (state[column + value] == state[column] + value)
                         conflicts++;
-                    if (state[column + j] == state[column] - j)
+                    if (state[column + value] == state[column] - value)
                         conflicts++;
                 }
-                for (int j = 1; column - j > 0; j++) //skos w lewo??
+
+                for (int value = 1; column - value > 0; value++) //skos w lewo??
                 {
-                    if (state[column - j] == state[column] + j)
+                    if (state[column - value] == state[column] + value)
                         conflicts++;
-                    if (state[column - j] == state[column] - j)
+                    if (state[column - value] == state[column] - value)
                         conflicts++;
                 }
             }
+
             return conflicts;
         }
 
@@ -69,12 +81,7 @@ namespace nHetmans
 
         public bool Compare(byte[] stateOfNode, byte[] checkingState)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public IList<byte[]> Expand(byte[] state)
-        {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void ShowState(byte[] state)
@@ -102,6 +109,75 @@ namespace nHetmans
 
                 Console.Write("\n");
             }
+        }
+
+        public IList<byte[]> Expand(byte[] state)
+        {
+            List<byte[]> possibleStates = createStatesToExpand(state);
+            return possibleStates;
+        }
+
+        private List<byte[]> createStatesToExpand(byte[] state)
+        {
+            byte size = (byte) state.Length;
+            List<byte[]> possibleStates = GeneratePosisbleStates(state);
+
+            return possibleStates;
+        }
+
+        private List<byte[]> GeneratePosisbleStates(byte[] state)
+        {
+            byte size = (byte) state.Length;
+            List<byte[]> returnedList = new List<byte[]>();
+            bool changed = false;
+            int initialCountOfConflicts = CountOfConflicts(state);
+            int conflictsForColumn, tempCountOfConflicts;
+            byte numberOfTheBestRow = 0;
+
+            for (byte column = 0; column < size; column++)
+            {
+                byte[] actualState = CopyState(state);
+                conflictsForColumn = initialCountOfConflicts;
+                tempCountOfConflicts = 0;
+
+                for (byte row = 0; row < size; row++)
+                {
+                    actualState[column] = row;
+                    tempCountOfConflicts = CountOfConflicts(actualState);
+                    if (tempCountOfConflicts < conflictsForColumn)
+                    {
+                        conflictsForColumn = tempCountOfConflicts;
+                        numberOfTheBestRow = row;
+                        changed = true;
+                    }
+                }
+
+                if (changed)
+                {
+                    actualState[column] = numberOfTheBestRow;
+                    returnedList.Add(actualState);
+                }
+            }
+
+            if (!changed)
+            {
+                returnedList.Add(GenerateState(size));
+            }
+
+            return returnedList;
+        }
+
+        private byte[] CopyState(byte[] state)
+        {
+            byte size = (byte) state.Length;
+            byte[] returnedArrayBytes = new byte[size];
+
+            for (int column = 0; column < size; column++)
+            {
+                returnedArrayBytes[column] = state[column];
+            }
+
+            return returnedArrayBytes;
         }
     }
 }
