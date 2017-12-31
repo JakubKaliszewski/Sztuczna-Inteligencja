@@ -81,7 +81,13 @@ namespace nHetmans
 
         public bool Compare(byte[] stateOfNode, byte[] checkingState)
         {
-            throw new NotImplementedException();
+            byte size = (byte) stateOfNode.Length;
+            for (byte column = 0; column < size; column++)
+            {
+                if (stateOfNode[column] != checkingState[column]) return false;
+            }
+
+            return true;
         }
 
         public void ShowState(byte[] state)
