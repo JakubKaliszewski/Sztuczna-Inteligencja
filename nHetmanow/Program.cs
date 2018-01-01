@@ -5,8 +5,24 @@ namespace nHetmans
 {
     internal class Program
     {
+        public static void DisplaySolution(Hetmans problemHetmans, Node<byte[]> result)
+        {
+            problemHetmans.ShowState(problemHetmans.InitialState);
+
+            if (result == null)
+            {
+                Console.WriteLine("\nNo solutions!");
+            }
+            else
+            {
+                Console.WriteLine("\nGoal State: \n");
+                ShowState(result.StateOfNode);
+            }
+        }
+        
         public static void ShowState(byte[] state)
         {
+            Console.WriteLine();
             byte size = (byte)state.GetLength(0);
 
             Console.Write("  ");
@@ -37,25 +53,50 @@ namespace nHetmans
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-            byte size = 8;
-            
+            Console.WriteLine("Podaj wymiar szachownicy: ");
+            byte size = byte.Parse(Console.ReadLine());
+            Console.WriteLine();
+            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz,\n3. best-first search,\n4. A*.");
+            int choose = int.Parse(Console.ReadLine());
             Hetmans problemHetmans = new Hetmans(size);
-            problemHetmans.ShowState(problemHetmans.InitialState);
-            ///Metoda Szukania - kolejka
-            QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+            Node<byte[]> result;
             
+            switch (choose)
+            {
+                case 1:
+                {
+                    StackFringe<Node<byte[]>> stackSolution = new StackFringe<Node<byte[]>>();
+                    result = TreeSearch.TreeSearchSearch(problemHetmans, stackSolution);
+                    DisplaySolution(problemHetmans,result);
+                    break;
+                }
+                    
+                case 2:
+                {
+                    QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+                    result = TreeSearch.TreeSearchSearch(problemHetmans, queueSolution);
+                    DisplaySolution(problemHetmans,result);
+                    break;
+                }
+                    
+                case 3:
+                {
+                    QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+                    result = TreeSearch.TreeSearchSearch(problemHetmans, queueSolution);
+                    DisplaySolution(problemHetmans,result);
+                    break;
+                }
+                    
+                case 4:
+                {
+                    QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+                    result = TreeSearch.TreeSearchSearch(problemHetmans, queueSolution);
+                    DisplaySolution(problemHetmans,result);
+                    break;
+                }
+            }
             
-            var result = TreeSearch.TreeSearchWithQueue(problemHetmans, queueSolution);
-            if (result == null)
-            {
-                Console.WriteLine("\nNo solutions!");
-            }
-            else
-            {
-                Console.WriteLine("\nGoal State: \n");
-                ShowState(result.StateOfNode);
-            }
-            Console.ReadKey();
+
         }
     }
 }

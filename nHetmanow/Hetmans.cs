@@ -92,15 +92,16 @@ namespace nHetmans
 
         public void ShowState(byte[] state)
         {
-            byte size = (byte) state.GetLength(0);
+            Console.WriteLine();
+            byte size = (byte)state.GetLength(0);
 
-            for (byte i = 0; i < size; i++) // 0 1 2 3 4 5 6 7 - naglowek 
+            Console.Write("  ");
+            for (byte i = 0; i < size; i++)// 0 1 2 3 4 5 6 7 - naglowek 
             {
                 Console.Write(i + " ");
             }
-
             Console.Write("\n"); // przejscie do wlasciwego wyswietlania tresci
-
+            
             for (byte row = 0; row < size; row++)
             {
                 Console.Write(row + " ");
@@ -108,13 +109,14 @@ namespace nHetmans
                 {
                     if (state[column] == row)
                     {
-                        Console.Write('\u25A0' + " ");
+                        Console.Write('\u25A0' + " ");   
+                        //Console.Write('H' + " ");
                     }
                     else Console.Write("  ");
                 }
-
                 Console.Write("\n");
             }
+            
         }
 
         public IList<byte[]> Expand(byte[] state)
