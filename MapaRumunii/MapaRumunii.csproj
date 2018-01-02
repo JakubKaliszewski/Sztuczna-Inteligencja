@@ -42,10 +42,17 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="City.cs"/>
-        <Compile Include="InitMap.cs"/>
+        <Compile Include="IFringe.cs"/>
+        <Compile Include="Map.cs"/>
+        <Compile Include="IProblem.cs"/>
+        <Compile Include="MapOfRomania.cs"/>
         <Compile Include="Neighbor.cs"/>
+        <Compile Include="Node.cs"/>
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="QueueFringe.cs"/>
+        <Compile Include="StackFringe.cs"/>
+        <Compile Include="TreeSearch.cs"/>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

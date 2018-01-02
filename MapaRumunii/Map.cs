@@ -2,13 +2,13 @@
 
 namespace MapaRumunii
 {
-    public class InitMap
+    public class Map
     {
         public List<string> NamesList;
         public List<City> Cities;
         public List<Dictionary<int, City>> Neighbors;
 
-        public InitMap()
+        public Map()
         {
             NamesList = new List<string>()
             {

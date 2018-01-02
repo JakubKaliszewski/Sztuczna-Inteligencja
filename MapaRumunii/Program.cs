@@ -7,6 +7,7 @@ namespace MapaRumunii
     {
         public static void Main(string[] args)
         {
+            Map initMap = new Map();
         }
     }
 }
