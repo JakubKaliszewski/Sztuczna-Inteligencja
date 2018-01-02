@@ -6,7 +6,6 @@ namespace MapaRumunii
     {
         public List<string> NamesList;
         public List<City> Cities;
-        public List<Dictionary<int, City>> Neighbors;
 
         public Map()
         {

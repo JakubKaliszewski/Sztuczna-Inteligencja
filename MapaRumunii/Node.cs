@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace MapaRumunii
@@ -7,6 +8,7 @@ namespace MapaRumunii
     {
         public State StateOfNode { get; private set; }
         private Node<State> parent;
+        private List<string> Road { get; }
 
         public Node(State state, Node<State> parent)
         {

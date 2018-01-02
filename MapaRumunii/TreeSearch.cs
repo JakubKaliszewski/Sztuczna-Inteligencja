@@ -2,7 +2,7 @@
 
 namespace MapaRumunii
 {
-    static class TreeSearch
+static class TreeSearch
     {
 
         public static Node<State> TreeSearchWithQueue<State>(IProblem<State> problem, IFringe<Node<State>> fringe)

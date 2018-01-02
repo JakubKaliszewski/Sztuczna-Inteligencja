@@ -9,5 +9,7 @@ namespace MapaRumunii
         {
             Map initMap = new Map();
         }
+        
+        
     }
 }
