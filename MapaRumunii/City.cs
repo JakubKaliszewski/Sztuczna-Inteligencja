@@ -5,14 +5,19 @@ namespace MapaRumunii
     public class City
     {
         private static int number;
-        private int id { get;  }
-        private string name { get; } 
+        public int id { get;  }
+        public string Name { get; } 
         private List<Neighbor> neighborsCities { get; }
 
+        public City()
+        {
+            
+        }
+        
         public City(string name)
         {
             id = number;
-            this.name = name;
+            this.Name = name;
             neighborsCities = new List<Neighbor>();
             number++;
         }

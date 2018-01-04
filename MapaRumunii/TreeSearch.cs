@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace MapaRumunii
 {
 static class TreeSearch
     {
 
-        public static Node<State> TreeSearchWithQueue<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
+        public static Node<State> TreeSearchMetod<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {
             fringe.Add(new Node<State>(problem.InitialState, null));///tworzy root na stosie
             
