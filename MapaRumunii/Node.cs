@@ -16,14 +16,18 @@ namespace MapaRumunii
         }
 
 
-        public void ShowRoad()
+        public void ShowRoad(Action<State> ShowState )
         {
-            var currentNode = this;
-            while (currentNode != null)
-            {
-                Console.Write(currentNode.StateOfNode.ToString());
-                currentNode = parent;
-            }
+            ShowState(StateOfNode);
+            if (parent == null) return;
+            ShowRoad(this.parent, ShowState);
+        }
+        
+        public void ShowRoad(Node<State> node, Action<State> ShowState )
+        {
+            ShowState(node.StateOfNode);
+            if (node.parent == null) return;
+            ShowRoad(node.parent, ShowState);
         }
 
         public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State, State, bool> Compare)

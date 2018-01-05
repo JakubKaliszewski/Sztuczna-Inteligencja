@@ -17,7 +17,7 @@ namespace MapaRumunii
         public City(string name)
         {
             id = number;
-            this.Name = name;
+            Name = name;
             neighborsCities = new List<Neighbor>();
             number++;
         }

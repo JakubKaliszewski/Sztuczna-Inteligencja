@@ -4,7 +4,7 @@ namespace MapaRumunii
 {
     internal class Program
     {
-        private static void DisplaySolution(Node<City> result)
+        private static void DisplaySolution(MapOfRomania problem, Node<City> result)
         {
             if (result == null)
             {
@@ -13,7 +13,7 @@ namespace MapaRumunii
             else
             {
                 Console.WriteLine("\nRoad: \n");
-                result.ShowRoad();
+                result.ShowRoad(problem.ShowState);
             }
         }
 
@@ -35,7 +35,7 @@ namespace MapaRumunii
                 {
                     StackFringe<Node<City>> stackSolution = new StackFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, stackSolution);
-                    DisplaySolution(result);
+                    DisplaySolution(problem, result);
                     break;
                 }
 
@@ -43,7 +43,7 @@ namespace MapaRumunii
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(result);
+                    DisplaySolution(problem,result);
                     break;
                 }
 
@@ -51,7 +51,7 @@ namespace MapaRumunii
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(result);
+                    DisplaySolution(problem, result);
                     break;
                 }
 
@@ -59,7 +59,7 @@ namespace MapaRumunii
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(result);
+                    DisplaySolution(problem, result);
                     break;
                 }
             }

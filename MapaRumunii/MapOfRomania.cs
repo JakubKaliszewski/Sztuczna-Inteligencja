@@ -88,5 +88,10 @@ namespace MapaRumunii
 
             return returnedList;
         }
+
+        public void ShowState(City state)
+        {
+            Console.WriteLine(state.Name);
+        }
     }
 }
