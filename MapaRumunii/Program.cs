@@ -1,30 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace MapaRumunii
 {
     internal class Program
     {
-        public static void DisplaySolution(MapOfRomania problem, Node<City> result)
+        private static void DisplaySolution(Node<City> result)
         {
-            Console.WriteLine("Miasto startowe: " + problem.startCity);
-
             if (result == null)
             {
                 Console.WriteLine("\nNo solutions!");
             }
             else
             {
-                Console.WriteLine("\nGoal State: \n");
+                Console.WriteLine("\nRoad: \n");
                 result.ShowRoad();
             }
         }
-        
+
         public static void Main(string[] args)
         {
             Map initMap = new Map();
-            
-            
             Console.WriteLine("Podaj miasto startowe: ");
             string startCity = Console.ReadLine();
             Console.WriteLine("Podaj miasto docelowe: ");
@@ -33,43 +28,41 @@ namespace MapaRumunii
             int choose = int.Parse(Console.ReadLine());
             MapOfRomania problem = new MapOfRomania(initMap, startCity, destinyCity);
             Node<City> result;
-            
+
             switch (choose)
             {
                 case 1:
                 {
                     StackFringe<Node<City>> stackSolution = new StackFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, stackSolution);
-                    DisplaySolution(problem,result);
+                    DisplaySolution(result);
                     break;
                 }
-                    
+
                 case 2:
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(problem,result);
+                    DisplaySolution(result);
                     break;
                 }
-                    
+
                 case 3:
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(problem,result);
+                    DisplaySolution(result);
                     break;
                 }
-                    
+
                 case 4:
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(problem,result);
+                    DisplaySolution(result);
                     break;
                 }
             }
-        }
-        
-        
+        } 
     }
 }

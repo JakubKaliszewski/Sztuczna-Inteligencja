@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MapaRumunii
 {
@@ -9,6 +10,8 @@ namespace MapaRumunii
 
         public Map()
         {
+            Console.WriteLine("Konstruktor!");
+            Cities = new List<City>();
             NamesList = new List<string>()
             {
                 "Oradea",

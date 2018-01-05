@@ -7,7 +7,7 @@ namespace MapaRumunii
         private static int number;
         public int id { get;  }
         public string Name { get; } 
-        private List<Neighbor> neighborsCities { get; }
+        public List<Neighbor> neighborsCities { get; }
 
         public City()
         {

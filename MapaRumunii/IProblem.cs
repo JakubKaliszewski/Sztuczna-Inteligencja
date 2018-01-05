@@ -8,6 +8,5 @@ namespace MapaRumunii
         bool IsGoal(State state);
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
-        void showState(State state);
     }
 }

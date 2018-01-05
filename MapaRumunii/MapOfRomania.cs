@@ -1,27 +1,25 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.IO;
 
 namespace MapaRumunii
 {
     public class MapOfRomania : IProblem<City>
     {
         public City InitialState { get; }
-        public string startCity { get; }
-        public string destinyCity { get; }
-        public City Destiny;
+        public Map CurrentMap { get; }
+        public City Destiny { get; }
 
         public MapOfRomania(Map map, string startCity, string destinyCity)
         {
-            InitialState = GetCityByName(map, startCity);
-            Destiny = GetCityByName(map, destinyCity);
+            CurrentMap = map;
+            InitialState = GetCityByName(startCity);
+            Destiny = GetCityByName(destinyCity);
         }
 
-        private City GetCityByName(Map map, string name)
+        private City GetCityByName(string name)
         {
             City returnedCity = new City();
-            foreach (City city in map.Cities)
+            foreach (City city in CurrentMap.Cities)
             {
                 if (city.Name == name)
                 {
@@ -36,22 +34,59 @@ namespace MapaRumunii
 
         public bool IsGoal(City state)
         {
-            throw new System.NotImplementedException();
+           return state.Name == Destiny.Name;
         }
 
         public bool Compare(City stateOfNode, City checkingState)
         {
-            throw new System.NotImplementedException();
+            return stateOfNode.Name == checkingState.Name;
         }
 
         public IList<City> Expand(City state)
         {
-            throw new System.NotImplementedException();
+            List<City> possibleStates = createStatesToExpand(state);
+            return possibleStates;
         }
 
-        public void showState(City state)
+
+        private List<City> createStatesToExpand(City state)
         {
-            throw new System.NotImplementedException();
+            List<City> possibleStates = GeneratePosisbleStates(state);
+
+            return possibleStates;
+        }
+
+        private List<City> GeneratePosisbleStates(City state)
+        {
+            List<City> returnedList = new List<City>();
+            returnedList = sortCitiesByDistances(state);
+
+            return returnedList;
+        }
+
+        private List<City> sortCitiesByDistances(City state)
+        {
+            List<City> returnedList = new List<City>();
+            List<int> distances = new List<int>();
+
+
+            foreach (Neighbor neighbor in state.neighborsCities)
+            {
+                distances.Add(neighbor.distance);
+            }
+
+            distances.Sort();
+
+            foreach (Neighbor neighbor in state.neighborsCities)
+            {
+                foreach (int distance in distances)
+                {
+                    if (distance == neighbor.distance)
+                        returnedList.Add(neighbor.city);
+                }
+            }
+
+            return returnedList;
         }
     }
 }

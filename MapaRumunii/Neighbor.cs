@@ -2,8 +2,8 @@
 {
     public class Neighbor
     {
-        private int distance;
-        private City city;
+        public int distance { get; }
+        public City city { get; }
 
         public Neighbor(int distance, City city)
         {
