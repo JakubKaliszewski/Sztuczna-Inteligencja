@@ -64,25 +64,36 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             return returnedList;
         }
 
+
+        private double CalculateDistanceToDestinyCity(City state)
+        {
+            return Math.Sqrt((Math.Pow(state.Xcoordinate - Destiny.Xcoordinate, 2))
+                             + (Math.Pow(state.Ycoordinate - Destiny.Ycoordinate, 2)));
+        }
+
         private List<City> sortCitiesByDistances(City state)
         {
             List<City> returnedList = new List<City>();
-            List<int> distances = new List<int>();
+            List<double> distances = new List<double>();
+            List<Tuple<City, double>> citiesAndDistances = new List<Tuple<City, double>>();
 
-
-            foreach (Neighbor neighbor in state.neighborsCities)
+            foreach (var neighbor in state.neighborsCities)
             {
-                distances.Add(neighbor.distance);
+                double distance = CalculateDistanceToDestinyCity(neighbor.city);
+                distances.Add(distance);
+                citiesAndDistances.Add(new Tuple<City, double>(neighbor.city, distance));
             }
 
+            
             distances.Sort();
-
-            foreach (Neighbor neighbor in state.neighborsCities)
+            foreach (Tuple<City, double> city in citiesAndDistances)
             {
-                foreach (int distance in distances)
+                foreach (double distance in distances)
                 {
-                    if (distance == neighbor.distance)
-                        returnedList.Add(neighbor.city);
+                    if (distance == city.Item2)
+                    {
+                        returnedList.Add(city.Item1);
+                    }
                 }
             }
 

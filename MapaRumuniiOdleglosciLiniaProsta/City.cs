@@ -5,7 +5,10 @@ namespace MapaRumuniiOdleglosciLiniaProsta
     public class City
     {
         private static int number;
-        public int id { get; }
+        public int Xcoordinate { get; }
+        public int Ycoordinate { get; }
+        
+        public int Id { get; }
         public string Name { get; }
         public List<Neighbor> neighborsCities { get; }
 
@@ -13,17 +16,19 @@ namespace MapaRumuniiOdleglosciLiniaProsta
         {
         }
 
-        public City(string name)
+        public City(string name, int x, int y)
         {
-            id = number;
+            Id = number;
             Name = name;
+            Xcoordinate = x;
+            Ycoordinate = y;
             neighborsCities = new List<Neighbor>();
             number++;
         }
 
-        public void AddNeighbor(City cityToAdd, int distance)
+        public void AddNeighbor(City cityToAdd)
         {
-            Neighbor neighbor = new Neighbor(distance, cityToAdd);
+            Neighbor neighbor = new Neighbor(cityToAdd);
             neighborsCities.Add(neighbor);
         }
     }

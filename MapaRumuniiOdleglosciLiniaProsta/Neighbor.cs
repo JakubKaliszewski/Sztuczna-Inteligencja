@@ -2,12 +2,10 @@
 {
     public class Neighbor
     {
-        public int distance { get; }
         public City city { get; }
 
-        public Neighbor(int distance, City city)
+        public Neighbor(City city)
         {
-            this.distance = distance;
             this.city = city;
         }
     }

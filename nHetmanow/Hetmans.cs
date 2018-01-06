@@ -17,7 +17,6 @@ namespace nHetmans
             get { return initial; }
         }
 
-
         public byte[] GenerateState(byte size)
         {
             byte[] state = new byte[size];
