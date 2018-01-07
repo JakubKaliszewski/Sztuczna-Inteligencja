@@ -7,7 +7,10 @@ namespace nHetmanowGenetycznie
         protected abstract TypOsobnika[] LosowaPopulacja(int rozmiar);
         protected abstract TypOsobnika Koniec(bool bestPossible = false);
         protected abstract float Przystosowanie(TypOsobnika osobnik);
-        protected abstract void Krzyzuj(TypOsobnika osobnik1, TypOsobnika osobnik2, out TypOsobnika nowyOsobnik1, out TypOsobnika nowyOsobnik2);
+
+        protected abstract void Krzyzuj(TypOsobnika osobnik1, TypOsobnika osobnik2, out TypOsobnika nowyOsobnik1,
+            out TypOsobnika nowyOsobnik2);
+
         protected abstract TypOsobnika Mutacja(TypOsobnika osobnik);
 
         protected int RozmiarPopulacji { get; set; }
@@ -41,6 +44,7 @@ namespace nHetmanowGenetycznie
                 populacja = nowaPopulacja;
                 liczbaIteracji--;
             }
+
             return Koniec(true);
         }
 
@@ -48,14 +52,18 @@ namespace nHetmanowGenetycznie
         {
             Random r = new Random();
             float[] progi = Progi(przystosowanie);
-            for (int i = 0; i < przystosowanie.Length; i++)
+            var iloscElementow = przystosowanie.Length;
+            for (int i = 0; i < iloscElementow - 1; i++)
             {
-                rodzice[i] = Indeks((float)r.NextDouble(), progi);
+                rodzice[i] = Indeks((float) r.NextDouble(), progi);
+                int liczbaIteracji = 100;
                 do
-                    rodzice[i + 1] = Indeks((float)r.NextDouble(), progi);
-                while (rodzice[i] == rodzice[i + 1]);
+                {
+                    rodzice[i + 1] = Indeks((float) r.NextDouble(), progi);
+                    liczbaIteracji--;
+                } while (rodzice[i] == rodzice[i + 1] && liczbaIteracji > 0);
             }
-    }
+        }
 
         private float[] Progi(float[] przystosowanie)
         {
@@ -66,6 +74,7 @@ namespace nHetmanowGenetycznie
                 suma += przystosowanie[i];
                 progi[i] = suma;
             }
+
             for (int i = 0; i < progi.Length; i++)
                 progi[i] /= suma;
             return progi;
@@ -84,6 +93,7 @@ namespace nHetmanowGenetycznie
                 else
                     a = c;
             } while (a < b);
+
             return a;
         }
     }

@@ -6,7 +6,7 @@ namespace nHetmanowGenetycznie
     {
         protected override byte[] LosowaPopulacja(int rozmiar)
         {
-            byte[] zwracanaPopulacja = {1,2,3,4,5,6,7,8};
+            byte[] zwracanaPopulacja = {0,1,2,3,4,5,6,7};
             Random losowa = new Random();
             const int iloscLosowan = 30;
 
