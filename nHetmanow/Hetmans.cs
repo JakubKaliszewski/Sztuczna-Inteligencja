@@ -120,16 +120,43 @@ namespace nHetmans
 
         public IList<byte[]> Expand(byte[] state)
         {
-            List<byte[]> possibleStates = createStatesToExpand(state);
+            List<byte[]> possibleStates = GeneratePosisbleStates(state);
+            return possibleStates;
+        }
+        
+        public IList<byte[]> ExpandPriority(byte[] state)
+        {
+            List<byte[]> possibleStates = GeneratePosisbleStates(state);
+            possibleStates = SortPosibleStates(possibleStates);
             return possibleStates;
         }
 
-        private List<byte[]> createStatesToExpand(byte[] state)
+        private List<byte[]> SortPosibleStates(List<byte[]> possibleStates)
         {
-            byte size = (byte) state.Length;
-            List<byte[]> possibleStates = GeneratePosisbleStates(state);
+            List<byte[]> returnedList = new List<byte[]>();
+            int sizeOfPossibleStates = possibleStates.Count;
+            List<Tuple<int,byte[]>> statesAndConflicts = new List<Tuple<int, byte[]>>();//index to kolumna
+            List<int> listOfConflicts = new List<int>();
+            
+            for (int column = 0; column < sizeOfPossibleStates; column++)
+            {
+                int count = CountOfConflicts(possibleStates[column]);
+                statesAndConflicts.Add(new Tuple<int, byte[]>(count, possibleStates[column]));
+                listOfConflicts.Add(count);
+            }
+            
+            listOfConflicts.Sort();
+            
+            for (int column = 0; column < sizeOfPossibleStates; column++)
+            {
+                if (listOfConflicts[column] == statesAndConflicts[column].Item1)
+                {
+                    returnedList.Add(statesAndConflicts[column].Item2);
+                }
+            }
 
-            return possibleStates;
+            return returnedList;
+
         }
 
         private List<byte[]> GeneratePosisbleStates(byte[] state)

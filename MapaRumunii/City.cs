@@ -5,15 +5,14 @@ namespace MapaRumunii
     public class City
     {
         private static int number;
-        public int id { get;  }
-        public string Name { get; } 
+        public int id { get; }
+        public string Name { get; }
         public List<Neighbor> neighborsCities { get; }
 
         public City()
         {
-            
         }
-        
+
         public City(string name)
         {
             id = number;
@@ -24,7 +23,7 @@ namespace MapaRumunii
 
         public void AddNeighbor(City cityToAdd, int distance)
         {
-            Neighbor neighbor = new Neighbor(distance,cityToAdd);
+            Neighbor neighbor = new Neighbor(distance, cityToAdd);
             neighborsCities.Add(neighbor);
         }
     }

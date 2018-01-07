@@ -50,7 +50,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                 case 3:
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchMetod(problem, queueSolution);
+                    result = TreeSearch.TreeSearchPriorityQueue(problem, queueSolution);
                     DisplaySolution(problem, result);
                     break;
                 }

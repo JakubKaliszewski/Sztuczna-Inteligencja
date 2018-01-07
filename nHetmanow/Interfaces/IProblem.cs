@@ -8,6 +8,7 @@ namespace nHetmans
         bool IsGoal(State state);
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
-        void ShowState(State state);
+        IList<State> ExpandPriority(State state);
+
     }
 }

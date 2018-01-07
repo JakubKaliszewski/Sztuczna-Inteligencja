@@ -10,8 +10,5 @@
             this.distance = distance;
             this.city = city;
         }
-        
-        
     }
-   
 }

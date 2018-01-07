@@ -16,14 +16,14 @@ namespace MapaRumunii
         }
 
 
-        public void ShowRoad(Action<State> ShowState )
+        public void ShowRoad(Action<State> ShowState)
         {
             ShowState(StateOfNode);
             if (parent == null) return;
             ShowRoad(this.parent, ShowState);
         }
-        
-        public void ShowRoad(Node<State> node, Action<State> ShowState )
+
+        public void ShowRoad(Node<State> node, Action<State> ShowState)
         {
             ShowState(node.StateOfNode);
             if (node.parent == null) return;

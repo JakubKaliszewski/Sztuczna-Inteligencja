@@ -34,7 +34,7 @@ namespace MapaRumunii
 
         public bool IsGoal(City state)
         {
-           return state.Name == Destiny.Name;
+            return state.Name == Destiny.Name;
         }
 
         public bool Compare(City stateOfNode, City checkingState)

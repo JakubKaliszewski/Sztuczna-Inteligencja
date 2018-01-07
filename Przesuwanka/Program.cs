@@ -52,6 +52,19 @@ namespace Przesuwanka
             return table;
         }
 
+        public static void DisplaySolution(Node<byte[,]> result)
+        {
+            if (result == null)
+            {
+                Console.WriteLine("\nNo solutions!");
+            }
+            else
+            {
+                Console.WriteLine("\nGoal State: \n");
+                showState(result.StateOfNode);
+            }
+        }
+        
         static void showState(byte[,] table)
         {
             for (int i = 0; i < table.GetLength(0); i++)
@@ -86,24 +99,50 @@ namespace Przesuwanka
             Console.WriteLine("Initial State: \n");
             showState(initial);
             Console.WriteLine();
-
+     
             
-            Przesuwanka PrzesuwankaGame = new Przesuwanka(initial, goal);
             QueueFringe<Node<byte[,]>> queue = new QueueFringe<Node<byte[,]>>();
             //StackFringe<Node<byte[,]>> stack = new StackFringe<Node<byte[,]>>();
-
-            var result = TreeSearch.TreeSearchWithQueue(PrzesuwankaGame, queue);
-            if (result == null)
+                
+            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz,\n3. best-first search,\n4. A*.");
+            int choose = int.Parse(Console.ReadLine());
+            Przesuwanka PrzesuwankaGame = new Przesuwanka(initial, goal);
+            Node<byte[,]> result;
+            
+            switch (choose)
             {
-                Console.WriteLine("\nBrak rozwiązań przesuwanki dla tego stanu początkowego");
+                case 1:
+                {
+                    StackFringe<Node<byte[,]>> stackSolution = new StackFringe<Node<byte[,]>>();
+                    result = TreeSearch.TreeSearchMetod(PrzesuwankaGame, stackSolution);
+                    DisplaySolution(result);
+                    break;
+                }
+                    
+                case 2:
+                {
+                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
+                    result = TreeSearch.TreeSearchMetod(PrzesuwankaGame, queueSolution);
+                    DisplaySolution(result);
+                    break;
+                }
+                    
+                case 3:
+                {
+                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
+                    result = TreeSearch.TreeSearchPriorityQueue(PrzesuwankaGame, queueSolution);
+                    DisplaySolution(result);
+                    break;
+                }
+                    
+                case 4:
+                {
+                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
+                    result = TreeSearch.TreeSearchPriorityQueue(PrzesuwankaGame, queueSolution);
+                    DisplaySolution(result);
+                    break;
+                }
             }
-            else
-            {
-                Console.WriteLine("\nGoal State: \n");
-                showState(result.StateOfNode);
-            }
-            Console.ReadKey();
-
 
         }
     }

@@ -35,6 +35,58 @@ namespace Przesuwanka
             List<byte[,]> possibleStates = createStatesToExpand(state);
             return possibleStates;
         }
+        
+        public IList<byte[,]> ExpandPriorityQueue(byte[,] state)
+        {
+            List<byte[,]> possibleStates = createStatesToExpand(state);
+            possibleStates = sortStates(possibleStates);
+            return possibleStates;
+        }
+
+        private List<byte[,]> sortStates(List<byte[,]> possibleStates)
+        {
+            List<byte[,]> returnedList = new List<byte[,]>();
+            int sizeOfPossibleStates = possibleStates.Count;
+            List<Tuple<int,byte[,]>> statesAndConflicts = new List<Tuple<int, byte[,]>>();//index to kolumna
+            List<int> listOfConflicts = new List<int>();
+            
+            for (int index = 0; index < sizeOfPossibleStates; index++)
+            {
+                int count = CountOfConflicts(possibleStates[index]);
+                statesAndConflicts.Add(new Tuple<int, byte[,]>(count, possibleStates[index]));
+                listOfConflicts.Add(count);
+            }
+            
+            listOfConflicts.Sort();
+            
+            for (int column = 0; column < sizeOfPossibleStates; column++)
+            {
+                if (listOfConflicts[column] == statesAndConflicts[column].Item1)
+                {
+                    returnedList.Add(statesAndConflicts[column].Item2);
+                }
+            }
+
+            return returnedList;
+        }
+
+        private int CountOfConflicts(byte[,] possibleState)
+        {
+            int conflicts = 0;
+            int size = possibleState.GetLength(0);
+            
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (goal[i, j] != possibleState[i, j])
+                    {
+                        conflicts++;
+                    }
+                }
+            }
+            return conflicts;
+        }
 
         static public byte[,] CopyState(byte[,] state)
         {

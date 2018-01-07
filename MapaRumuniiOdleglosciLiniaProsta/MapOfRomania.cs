@@ -42,21 +42,31 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             return stateOfNode.Name == checkingState.Name;
         }
 
+        public IList<City> ExpandPriority(City state)
+        {
+            List<City> possibleStates = GeneratePosisbleStatesPriorityQueue(state);
+            return possibleStates;
+        }
+
         public IList<City> Expand(City state)
         {
-            List<City> possibleStates = createStatesToExpand(state);
-            return possibleStates;
-        }
-
-
-        private List<City> createStatesToExpand(City state)
-        {
             List<City> possibleStates = GeneratePosisbleStates(state);
-
             return possibleStates;
         }
+
 
         private List<City> GeneratePosisbleStates(City state)
+        {
+            List<City> returnedList = new List<City>();
+            foreach (var neighbor in state.neighborsCities)
+            {
+                returnedList.Add(neighbor.city);
+            }
+
+            return returnedList;
+        }
+
+        private List<City> GeneratePosisbleStatesPriorityQueue(City state)
         {
             List<City> returnedList = new List<City>();
             returnedList = sortCitiesByDistances(state);
@@ -84,7 +94,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                 citiesAndDistances.Add(new Tuple<City, double>(neighbor.city, distance));
             }
 
-            
+
             distances.Sort();
             foreach (Tuple<City, double> city in citiesAndDistances)
             {

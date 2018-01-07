@@ -82,7 +82,7 @@ namespace nHetmans
                 case 3:
                 {
                     QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
-                    result = TreeSearch.TreeSearchSearch(problemHetmans, queueSolution);
+                    result = TreeSearch.TreeSearchPriorityQueue(problemHetmans, queueSolution);
                     DisplaySolution(problemHetmans,result);
                     break;
                 }

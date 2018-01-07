@@ -12,8 +12,9 @@ namespace MapaRumunii
             }
             else
             {
-                Console.WriteLine("\nRoad: \n");
+                Console.WriteLine("\nRoad: \nSteps: " + TreeSearch.countOfSteps);
                 result.ShowRoad(problem.ShowState);
+                
             }
         }
 
@@ -24,7 +25,7 @@ namespace MapaRumunii
             string startCity = Console.ReadLine();
             Console.WriteLine("Podaj miasto docelowe: ");
             string destinyCity = Console.ReadLine();
-            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz,\n3. best-first search,\n4. A*.");
+            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz.");
             int choose = int.Parse(Console.ReadLine());
             MapOfRomania problem = new MapOfRomania(initMap, startCity, destinyCity);
             Node<City> result;
@@ -43,26 +44,10 @@ namespace MapaRumunii
                 {
                     QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
                     result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(problem,result);
-                    break;
-                }
-
-                case 3:
-                {
-                    QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchMetod(problem, queueSolution);
-                    DisplaySolution(problem, result);
-                    break;
-                }
-
-                case 4:
-                {
-                    QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchMetod(problem, queueSolution);
                     DisplaySolution(problem, result);
                     break;
                 }
             }
-        } 
+        }
     }
 }
