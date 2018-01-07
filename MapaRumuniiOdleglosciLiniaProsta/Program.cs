@@ -12,7 +12,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             }
             else
             {
-                Console.WriteLine("\nRoad: \n");
+                Console.WriteLine("\nRoad: \nSteps: " + TreeSearch.countOfSteps);
                 result.ShowRoad(problem.ShowState);
             }
         }

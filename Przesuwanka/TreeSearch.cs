@@ -5,7 +5,7 @@ namespace Przesuwanka
     static class TreeSearch
     {
 
-       static int countOfSteps;
+       public static int countOfSteps;
 
         public static Node<State> TreeSearchMetod<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {

@@ -17,6 +17,7 @@ namespace nHetmans
             {
                 Console.WriteLine("\nGoal State: \n");
                 ShowState(result.StateOfNode);
+                Console.WriteLine("\nSteps: " + TreeSearch.countOfSteps);
             }
         }
         

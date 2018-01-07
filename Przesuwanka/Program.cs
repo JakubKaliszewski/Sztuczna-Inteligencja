@@ -62,6 +62,7 @@ namespace Przesuwanka
             {
                 Console.WriteLine("\nGoal State: \n");
                 showState(result.StateOfNode);
+                Console.WriteLine("\nSteps: " + TreeSearch.countOfSteps);
             }
         }
         
