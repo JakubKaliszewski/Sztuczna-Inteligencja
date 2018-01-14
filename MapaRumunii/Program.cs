@@ -24,45 +24,28 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             string startCity = Console.ReadLine();
             Console.WriteLine("Podaj miasto docelowe: ");
             string destinyCity = Console.ReadLine();
-            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz,\n3. best-first search,\n4. A*.");
-            int choose = int.Parse(Console.ReadLine());
             MapOfRomania problem = new MapOfRomania(initMap, startCity, destinyCity);
             Node<City> result;
 
-            switch (choose)
-            {
-                case 1:
-                {
-                    StackFringe<Node<City>> stackSolution = new StackFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchMetod(problem, stackSolution, GetDistance);
-                    DisplaySolution(problem, result);
-                    break;
-                }
+            Console.WriteLine("\nSolving with StackFringe...");
+            StackFringe<Node<City>> stackSolution = new StackFringe<Node<City>>();
+            result = TreeSearch.TreeSearchMetod(problem, stackSolution, GetDistance);
+            DisplaySolution(problem, result);
 
-                case 2:
-                {
-                    QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchMetod(problem, queueSolution, GetDistance);
-                    DisplaySolution(problem, result);
-                    break;
-                }
+            Console.WriteLine("\nSolving with QueueFringe...");
+            QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
+            result = TreeSearch.TreeSearchMetod(problem, queueSolution, GetDistance);
+            DisplaySolution(problem, result);
 
-                case 3:
-                {
-                    QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchPriorityQueue(problem, queueSolution, GetDistance);
-                    DisplaySolution(problem, result);
-                    break;
-                }
+            Console.WriteLine("\nSolving with PriorityQueueFringe...");
+            QueueFringe<Node<City>> queuePrioritySolution = new QueueFringe<Node<City>>();
+            result = TreeSearch.TreeSearchPriorityQueue(problem, queuePrioritySolution, GetDistance);
+            DisplaySolution(problem, result);
 
-                case 4:
-                {
-                    QueueFringe<Node<City>> aStarSolution = new QueueFringe<Node<City>>();
-                    result = TreeSearch.TreeSearchAStar(problem, aStarSolution, GetDistance);
-                    DisplaySolution(problem, result);
-                    break;
-                }
-            }
+            Console.WriteLine("\nSolving with AStarFringe...");
+            QueueFringe<Node<City>> aStarSolution = new QueueFringe<Node<City>>();
+            result = TreeSearch.TreeSearchAStar(problem, aStarSolution, GetDistance);
+            DisplaySolution(problem, result);
         }
 
         private static int GetDistance(City city, City city1)
@@ -75,7 +58,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                     distance = neighbor.distance;
                 }
             }
-                      
+
             return distance;
         }
     }
