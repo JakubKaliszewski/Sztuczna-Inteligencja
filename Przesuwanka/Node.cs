@@ -19,7 +19,7 @@ namespace Przesuwanka
         }
 
 
-        public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State,State,bool> Compare)
+        public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State, State, bool> Compare)
         {
             if (Compare(stateOfNode, checkingState)) //Stany są identyczne, 
             {
@@ -27,20 +27,20 @@ namespace Przesuwanka
                 return true;
             }
 
-            if (this.parent == null)//Dalej juz nie moge, wiec nie wystapil
+            if (this.parent == null) //Dalej juz nie moge, wiec nie wystapil
             {
                 Debug.WriteLine("False");
                 return false;
             }
-  
+
             Debug.WriteLine("Rekurencja");
-            return OnPathToRoot(parent, checkingState, Compare);//Dalej szukam stanu
+            return OnPathToRoot(parent, checkingState, Compare); //Dalej szukam stanu
         }
 
 
         private bool OnPathToRoot(Node<State> node, State checkingState, Func<State, State, bool> Compare)
         {
-            if (Compare(node.StateOfNode, checkingState))//Stany identyczne
+            if (Compare(node.StateOfNode, checkingState)) //Stany identyczne
             {
                 Debug.WriteLine("True");
                 return true;
@@ -53,8 +53,7 @@ namespace Przesuwanka
             }
 
             Debug.WriteLine("Rekurencja");
-            return OnPathToRoot(node.parent, checkingState, Compare);//Dalej szukam stanu
+            return OnPathToRoot(node.parent, checkingState, Compare); //Dalej szukam stanu
         }
-
     }
 }

@@ -51,7 +51,7 @@ namespace nHetmans
                         conflicts++;
                 }
 
-                for (int value = 1; column - value > 0; value++) //skos w lewo??
+                for (int value = 1; column - value > 0; value++) //skos w lewo
                 {
                     if (state[column - value] == state[column] + value)
                         conflicts++;
@@ -92,15 +92,16 @@ namespace nHetmans
         public void ShowState(byte[] state)
         {
             Console.WriteLine();
-            byte size = (byte)state.GetLength(0);
+            byte size = (byte) state.GetLength(0);
 
             Console.Write("  ");
-            for (byte i = 0; i < size; i++)// 0 1 2 3 4 5 6 7 - naglowek 
+            for (byte i = 0; i < size; i++) // 0 1 2 3 4 5 6 7 - naglowek 
             {
                 Console.Write(i + " ");
             }
+
             Console.Write("\n"); // przejscie do wlasciwego wyswietlania tresci
-            
+
             for (byte row = 0; row < size; row++)
             {
                 Console.Write(row + " ");
@@ -108,14 +109,14 @@ namespace nHetmans
                 {
                     if (state[column] == row)
                     {
-                        Console.Write('\u25A0' + " ");   
+                        Console.Write('\u25A0' + " ");
                         //Console.Write('H' + " ");
                     }
                     else Console.Write("  ");
                 }
+
                 Console.Write("\n");
             }
-            
         }
 
         public IList<byte[]> Expand(byte[] state)
@@ -123,7 +124,7 @@ namespace nHetmans
             List<byte[]> possibleStates = GeneratePosisbleStates(state);
             return possibleStates;
         }
-        
+
         public IList<byte[]> ExpandPriority(byte[] state)
         {
             List<byte[]> possibleStates = GeneratePosisbleStates(state);
@@ -135,18 +136,18 @@ namespace nHetmans
         {
             List<byte[]> returnedList = new List<byte[]>();
             int sizeOfPossibleStates = possibleStates.Count;
-            List<Tuple<int,byte[]>> statesAndConflicts = new List<Tuple<int, byte[]>>();//index to kolumna
+            List<Tuple<int, byte[]>> statesAndConflicts = new List<Tuple<int, byte[]>>(); //index to kolumna
             List<int> listOfConflicts = new List<int>();
-            
+
             for (int column = 0; column < sizeOfPossibleStates; column++)
             {
                 int count = CountOfConflicts(possibleStates[column]);
                 statesAndConflicts.Add(new Tuple<int, byte[]>(count, possibleStates[column]));
                 listOfConflicts.Add(count);
             }
-            
+
             listOfConflicts.Sort();
-            
+
             for (int column = 0; column < sizeOfPossibleStates; column++)
             {
                 if (listOfConflicts[column] == statesAndConflicts[column].Item1)
@@ -156,7 +157,6 @@ namespace nHetmans
             }
 
             return returnedList;
-
         }
 
         private List<byte[]> GeneratePosisbleStates(byte[] state)

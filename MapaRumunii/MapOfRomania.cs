@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapaRumunii
+namespace MapaRumuniiOdleglosciLiniaProsta
 {
     public class MapOfRomania : IProblem<City>
     {
@@ -42,56 +42,109 @@ namespace MapaRumunii
             return stateOfNode.Name == checkingState.Name;
         }
 
+        public IList<City> ExpandPriority(City state)
+        {
+            List<City> possibleStates = GeneratePosisbleStatesPriorityQueue(state);
+            return possibleStates;
+        }
+
         public IList<City> Expand(City state)
         {
-            List<City> possibleStates = createStatesToExpand(state);
-            return possibleStates;
-        }
-
-
-        private List<City> createStatesToExpand(City state)
-        {
             List<City> possibleStates = GeneratePosisbleStates(state);
-
             return possibleStates;
         }
 
-        private List<City> GeneratePosisbleStates(City state)
+        public IList<City> ExpandAStar(City state)
         {
-            List<City> returnedList = new List<City>();
-            returnedList = sortCitiesByDistances(state);
-
-            return returnedList;
+            List<City> possibleStates = GeneratePosisbleStatesAStar(state);
+            return possibleStates;
         }
 
-        private List<City> sortCitiesByDistances(City state)
+        private List<City> GeneratePosisbleStatesAStar(City state)
         {
             List<City> returnedList = new List<City>();
-            List<int> distances = new List<int>();
+            List<double> distances = new List<double>();
+            List<Tuple<City, double>> citiesAndDistances = new List<Tuple<City, double>>();
 
-
-            foreach (Neighbor neighbor in state.neighborsCities)
+            foreach (var neighbor in state.neighborsCities)
             {
-                distances.Add(neighbor.distance);
+                double distance = CalculateDistanceToDestinyCity(neighbor.city) + neighbor.distance;
+                distances.Add(distance);
+                citiesAndDistances.Add(new Tuple<City, double>(neighbor.city, distance));
             }
 
-            distances.Sort();
 
-            foreach (Neighbor neighbor in state.neighborsCities)
+            distances.Sort();
+            foreach (Tuple<City, double> city in citiesAndDistances)
             {
-                foreach (int distance in distances)
+                foreach (double distance in distances)
                 {
-                    if (distance == neighbor.distance)
-                        returnedList.Add(neighbor.city);
+                    if (distance == city.Item2)
+                    {
+                        returnedList.Add(city.Item1);
+                    }
                 }
             }
 
             return returnedList;
         }
 
-        public void ShowState(City state)
+        private List<City> GeneratePosisbleStates(City state)
         {
-            Console.WriteLine(state.Name);
+            List<City> returnedList = new List<City>();
+            foreach (var neighbor in state.neighborsCities)
+            {
+                returnedList.Add(neighbor.city);
+            }
+
+            return returnedList;
+        }
+
+        private List<City> GeneratePosisbleStatesPriorityQueue(City state)
+        {
+            List<City> returnedList = new List<City>();
+            returnedList = sortCitiesByDistances(state);
+
+            return returnedList;
+        }
+        
+        private List<City> sortCitiesByDistances(City state)
+        {
+            List<City> returnedList = new List<City>();
+            List<double> distances = new List<double>();
+            List<Tuple<City, double>> citiesAndDistances = new List<Tuple<City, double>>();
+
+            foreach (var neighbor in state.neighborsCities)
+            {
+                double distance = neighbor.distance;
+                distances.Add(distance);
+                citiesAndDistances.Add(new Tuple<City, double>(neighbor.city, distance));
+            }
+
+            distances.Sort();
+            foreach (Tuple<City, double> city in citiesAndDistances)
+            {
+                foreach (double distance in distances)
+                {
+                    if (distance == city.Item2)
+                    {
+                        returnedList.Add(city.Item1);
+                    }
+                }
+            }
+
+            return returnedList;
+        }
+
+        private double CalculateDistanceToDestinyCity(City state)
+        {
+            return Math.Sqrt((Math.Pow(state.Xcoordinate - Destiny.Xcoordinate, 2))
+                             + (Math.Pow(state.Ycoordinate - Destiny.Ycoordinate, 2)));
+        }
+
+        public void ShowState(City state, int distance)
+        {
+            Console.WriteLine("Miasto: " + state.Name + "\tPrzebyta odległość: " + distance);
         }
     }
 }

@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapaRumunii
+namespace MapaRumuniiOdleglosciLiniaProsta
 {
     public class Map
     {
-        public List<string> NamesList;
+        private List<string> NamesList;
+        private List<Tuple<int, int>> CoordinatesList;
         public List<City> Cities;
 
         public Map()
         {
+            Console.WriteLine("Konstruktor!");
             Cities = new List<City>();
             NamesList = new List<string>()
             {
@@ -35,13 +37,60 @@ namespace MapaRumunii
                 "Neamt"
             };
 
+            CoordinatesList = new List<Tuple<int, int>>()
+            {
+                new Tuple<int, int>(135, 17),
+                new Tuple<int, int>(94, 84),
+                new Tuple<int, int>(62, 154),
+                new Tuple<int, int>(70, 294),
+                new Tuple<int, int>(189, 346),
+                new Tuple<int, int>(193, 419),
+                new Tuple<int, int>(189, 487),
+                new Tuple<int, int>(341, 506),
+                new Tuple<int, int>(261, 212),
+                new Tuple<int, int>(306, 296),
+                new Tuple<int, int>(436, 225),
+                new Tuple<int, int>(459, 367),
+                new Tuple<int, int>(597, 437),
+                new Tuple<int, int>(552, 535),
+                new Tuple<int, int>(604, 72),
+                new Tuple<int, int>(723, 126),
+                new Tuple<int, int>(785, 236),
+                new Tuple<int, int>(698, 395),
+                new Tuple<int, int>(827, 399),
+                new Tuple<int, int>(878, 496)
+            };
+
+            //Oradea 135,17
+            //Zerind 94,84
+            //Arad 62,154
+            //Timisoara 70,294
+            //Lugoj 189,346
+            //Mehadia 193,419
+            //Doboreta 189,487
+            //Craiova 341,506
+            //Sibiu 261,212
+            //Rimnicu Vilcea 306,296
+            //Fagaras 436,225
+            //Pitesti 459,367
+            //Bucharest 597, 437
+            //Giurgiu 552,535
+            //Neamt 604,72
+            //Iasi 723,126
+            //Vaslui 785,236
+            //Urziceni 698,395
+            //Hirsova 827,399
+            //Eforie 878,496
+
             for (int i = 0; i < NamesList.Count; i++)
             {
                 string name = NamesList[i];
-                Cities.Add(new City(name));
+                int x = CoordinatesList[i].Item1;
+                int y = CoordinatesList[i].Item2;
+                Cities.Add(new City(name, x, y));
             }
 
-            //Oradea
+           //Oradea
             Cities[0].AddNeighbor(Cities[1], 71);
             Cities[0].AddNeighbor(Cities[2], 151);
 

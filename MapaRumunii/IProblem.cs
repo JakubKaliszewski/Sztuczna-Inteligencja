@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MapaRumunii
+namespace MapaRumuniiOdleglosciLiniaProsta
 {
     interface IProblem<State>
     {
@@ -8,5 +8,7 @@ namespace MapaRumunii
         bool IsGoal(State state);
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
+        IList<State> ExpandPriority(State state);
+        IList<State> ExpandAStar(State state);
     }
 }

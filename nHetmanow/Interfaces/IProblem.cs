@@ -9,6 +9,5 @@ namespace nHetmans
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
         IList<State> ExpandPriority(State state);
-
     }
 }

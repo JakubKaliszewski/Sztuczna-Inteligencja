@@ -35,7 +35,7 @@ namespace Przesuwanka
             List<byte[,]> possibleStates = createStatesToExpand(state);
             return possibleStates;
         }
-        
+
         public IList<byte[,]> ExpandPriorityQueue(byte[,] state)
         {
             List<byte[,]> possibleStates = createStatesToExpand(state);
@@ -47,18 +47,18 @@ namespace Przesuwanka
         {
             List<byte[,]> returnedList = new List<byte[,]>();
             int sizeOfPossibleStates = possibleStates.Count;
-            List<Tuple<int,byte[,]>> statesAndConflicts = new List<Tuple<int, byte[,]>>();//index to kolumna
+            List<Tuple<int, byte[,]>> statesAndConflicts = new List<Tuple<int, byte[,]>>(); //index to kolumna
             List<int> listOfConflicts = new List<int>();
-            
+
             for (int index = 0; index < sizeOfPossibleStates; index++)
             {
                 int count = CountOfConflicts(possibleStates[index]);
                 statesAndConflicts.Add(new Tuple<int, byte[,]>(count, possibleStates[index]));
                 listOfConflicts.Add(count);
             }
-            
+
             listOfConflicts.Sort();
-            
+
             for (int column = 0; column < sizeOfPossibleStates; column++)
             {
                 if (listOfConflicts[column] == statesAndConflicts[column].Item1)
@@ -74,7 +74,7 @@ namespace Przesuwanka
         {
             int conflicts = 0;
             int size = possibleState.GetLength(0);
-            
+
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
@@ -85,13 +85,14 @@ namespace Przesuwanka
                     }
                 }
             }
+
             return conflicts;
         }
 
         static public byte[,] CopyState(byte[,] state)
         {
             byte[,] returnedArrayBytes = new byte[state.GetLength(0), state.GetLength(1)];
-            
+
             for (int i = 0; i < state.GetLength(0); i++)
             {
                 for (int j = 0; j < state.GetLength(1); j++)
@@ -168,6 +169,7 @@ namespace Przesuwanka
                     }
                 }
             }
+
             throw new Exception("Zero not found");
         }
 
@@ -183,12 +185,13 @@ namespace Przesuwanka
                     }
                 }
             }
+
             return true;
         }
-        
+
         public bool Compare(byte[,] stateOfNode, byte[,] checkingState)
         {
-            for (int i = 0; i <stateOfNode.GetLength(0); i++)
+            for (int i = 0; i < stateOfNode.GetLength(0); i++)
             {
                 for (int j = 0; j < stateOfNode.GetLength(1); j++)
                 {
@@ -198,6 +201,7 @@ namespace Przesuwanka
                     }
                 }
             }
+
             return true;
         }
 
@@ -210,9 +214,9 @@ namespace Przesuwanka
                 {
                     Console.Write(table[i, j] + "\t");
                 }
+
                 Console.Write(" ]\n");
             }
         }
-
     }
 }

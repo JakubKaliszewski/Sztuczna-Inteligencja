@@ -1,4 +1,4 @@
-﻿namespace MapaRumunii
+﻿namespace MapaRumuniiOdleglosciLiniaProsta
 {
     interface IFringe<Element>
     {

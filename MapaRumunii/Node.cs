@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace MapaRumunii
+namespace MapaRumuniiOdleglosciLiniaProsta
 {
     class Node<State>
     {
         public State StateOfNode { get; private set; }
         private Node<State> parent;
+        public int CurrentDistance { get; set; }
 
         public Node(State state, Node<State> parent)
         {
@@ -16,16 +17,16 @@ namespace MapaRumunii
         }
 
 
-        public void ShowRoad(Action<State> ShowState)
+        public void ShowRoad(Action<State, int> ShowState)
         {
-            ShowState(StateOfNode);
+            ShowState(StateOfNode, this.CurrentDistance);
             if (parent == null) return;
             ShowRoad(this.parent, ShowState);
         }
 
-        public void ShowRoad(Node<State> node, Action<State> ShowState)
+        public void ShowRoad(Node<State> node, Action<State, int> ShowState)
         {
-            ShowState(node.StateOfNode);
+            ShowState(node.StateOfNode, node.CurrentDistance);
             if (node.parent == null) return;
             ShowRoad(node.parent, ShowState);
         }

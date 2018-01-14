@@ -6,16 +6,16 @@ namespace nHetmanowGenetycznie
     {
         protected override byte[] LosowaPopulacja(int rozmiar)
         {
-            byte[] zwracanaPopulacja = {0,1,2,3,4,5,6,7};
+            byte[] zwracanaPopulacja = {0, 1, 2, 3, 4, 5, 6, 7};
             Random losowa = new Random();
             const int iloscLosowan = 30;
 
-            
+
             for (int i = 0; i < iloscLosowan; i++)
             {
                 byte tymczasowaDoZamiany;
                 int wylosowana1, wylosowana2;
-                
+
                 wylosowana1 = losowa.Next(1, 8);
                 wylosowana2 = losowa.Next(1, 8);
 
