@@ -131,6 +131,41 @@ namespace nHetmans
             possibleStates = SortPosibleStates(possibleStates);
             return possibleStates;
         }
+        
+        public IList<byte[]> ExpandAStar(byte[] state, int steps)
+        {
+            List<byte[]> possibleStates = GeneratePosisbleStates(state);
+            possibleStates = SortPosibleStatesForAStar(possibleStates, steps);
+            return possibleStates;
+        }
+        
+        private List<byte[]> SortPosibleStatesForAStar(List<byte[]> possibleStates, int steps)
+        {
+            List<byte[]> returnedList = new List<byte[]>();
+            int sizeOfPossibleStates = possibleStates.Count;
+            List<Tuple<int, byte[]>> statesAndConflicts = new List<Tuple<int, byte[]>>(); //index to kolumna
+            List<int> listOfConflicts = new List<int>();
+
+            for (int column = 0; column < sizeOfPossibleStates; column++)
+            {
+                int count = CountOfConflicts(possibleStates[column]) + steps;
+                statesAndConflicts.Add(new Tuple<int, byte[]>(count, possibleStates[column]));
+                listOfConflicts.Add(count);
+            }
+
+            listOfConflicts.Sort();
+
+            for (int column = 0; column < sizeOfPossibleStates; column++)
+            {
+                if (listOfConflicts[column] == statesAndConflicts[column].Item1)
+                {
+                    returnedList.Add(statesAndConflicts[column].Item2);
+                }
+            }
+
+            return returnedList;
+        }
+
 
         private List<byte[]> SortPosibleStates(List<byte[]> possibleStates)
         {

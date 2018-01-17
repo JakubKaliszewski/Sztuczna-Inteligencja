@@ -7,6 +7,7 @@ namespace nHetmans
     {
         public State StateOfNode { get; private set; }
         private Node<State> parent;
+        public int CountOfSteps { get; set; }
 
         public Node(State state, Node<State> parent)
         {
@@ -14,6 +15,12 @@ namespace nHetmans
             this.parent = parent;
         }
 
+        public Node(State state, Node<State> parent, int steps)
+        {
+            StateOfNode = state;
+            this.parent = parent;
+            this.CountOfSteps = steps;
+        }
 
         public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State, State, bool> Compare)
         {
