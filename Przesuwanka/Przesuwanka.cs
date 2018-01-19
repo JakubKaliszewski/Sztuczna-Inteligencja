@@ -28,7 +28,7 @@ namespace Przesuwanka
 
         public IList<byte[,]> ExpandPriorityQueue(byte[,] state)
         {
-            var possibleStates = createStatesToExpand(state);
+            List<byte[,]> possibleStates = createStatesToExpand(state);
             possibleStates = sortStates(possibleStates);
             return possibleStates;
         }
@@ -88,32 +88,57 @@ namespace Przesuwanka
 
             listOfConflicts.Sort();
 
-            for (var column = 0; column < sizeOfPossibleStates; column++)
+/*            for (var column = 0; column < sizeOfPossibleStates; column++)
                 if (listOfConflicts[column] == statesAndConflicts[column].Item1)
-                    returnedList.Add(statesAndConflicts[column].Item2);
+                    returnedList.Add(statesAndConflicts[column].Item2);*/
+            
+            for (int index = 0; index < listOfConflicts.Count; index++)
+            {
+                for (int indexOfState = 0; indexOfState < statesAndConflicts.Count; indexOfState++)
+                {
+                    if (listOfConflicts[index] == statesAndConflicts[indexOfState].Item1)
+                    {
+                        returnedList.Add(statesAndConflicts[indexOfState].Item2);
+                        statesAndConflicts[indexOfState] = new Tuple<int, byte[,]>(Int32.MaxValue, statesAndConflicts[indexOfState].Item2);
+                    }
+                }
+            }
+
 
             return returnedList;
         }
 
+
         private List<byte[,]> sortStates(List<byte[,]> possibleStates)
         {
             var returnedList = new List<byte[,]>();
-            var sizeOfPossibleStates = possibleStates.Count;
-            var statesAndConflicts = new List<Tuple<int, byte[,]>>(); //index to kolumna
-            var listOfConflicts = new List<int>();
+            int conflicts = 0;
+            //var sizeOfPossibleStates = possibleStates.Count;
+            List<Tuple<int,byte[,]>> statesAndConflicts = new List<Tuple<int, byte[,]>>(); //index to kolumna
+            List<int> listOfConflicts = new List<int>();
 
-            for (var index = 0; index < sizeOfPossibleStates; index++)
+            foreach (var state in possibleStates)
             {
-                var count = CountOfConflicts(possibleStates[index]);
-                statesAndConflicts.Add(new Tuple<int, byte[,]>(count, possibleStates[index]));
-                listOfConflicts.Add(count);
+                conflicts = CountOfConflicts(state);
+                listOfConflicts.Add(conflicts);
+                statesAndConflicts.Add(new Tuple<int, byte[,]>(conflicts,state));
+                conflicts = 0;
             }
-
+            
             listOfConflicts.Sort();
 
-            for (var column = 0; column < sizeOfPossibleStates; column++)
-                if (listOfConflicts[column] == statesAndConflicts[column].Item1)
-                    returnedList.Add(statesAndConflicts[column].Item2);
+            for (int index = 0; index < listOfConflicts.Count; index++)
+            {
+                for (int indexOfState = 0; indexOfState < statesAndConflicts.Count; indexOfState++)
+                {
+                    if (listOfConflicts[index] == statesAndConflicts[indexOfState].Item1)
+                    {
+                        returnedList.Add(statesAndConflicts[indexOfState].Item2);
+                        statesAndConflicts[indexOfState] = new Tuple<int, byte[,]>(Int32.MaxValue, statesAndConflicts[indexOfState].Item2);
+                    }
+                }
+            }
+
 
             return returnedList;
         }
@@ -173,7 +198,7 @@ namespace Przesuwanka
         private List<byte[,]> createStatesToExpand(byte[,] state)
         {
             var size = state.GetLength(0);
-            var possibleStates = new List<byte[,]>(4);
+            var possibleStates = new List<byte[,]>();
             var possibleState = new byte[size, size];
             byte tmp;
             var coordinatesOfZero = findCoordinatesOfElement(0, state);

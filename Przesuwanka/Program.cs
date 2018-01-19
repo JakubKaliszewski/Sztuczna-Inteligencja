@@ -78,20 +78,21 @@ namespace Przesuwanka
             Console.WriteLine("Podaj wymiar przesuwanki: ");
             var size = byte.Parse(Console.ReadLine());
 
-            //var initial = new byte[size, size];
-            byte numberOfMixes = 30; //Parametr ilosci przemieszan
+            var initial = new byte[size, size];
+            byte numberOfMixes = 5; //Parametr ilosci przemieszan
             var goal = new byte[size, size];
 
 
-            byte[,] initial =
+/*            byte[,] initial =
             {
                 {4, 1, 3},
                 {7, 2, 6},
                 {5, 8, 0},
-            };
+            };*/
 
-            //initial = mixGeneratedState(generateState(size), numberOfMixes);
+            initial = mixGeneratedState(generateState(size), numberOfMixes);
             goal = generateState(size);
+            showState(initial);
 
 
             var problemPrzesuwanka = new Przesuwanka(initial, goal);
@@ -103,11 +104,11 @@ namespace Przesuwanka
             DisplaySolution(problemPrzesuwanka, result);
             TreeSearch.countOfSteps = 0;*/
 
-/*            Console.WriteLine("\nSolving with QueueFringe...");
+            Console.WriteLine("\nSolving with QueueFringe...");
             var queueSolution = new QueueFringe<Node<byte[,]>>();
             result = TreeSearch.TreeSearchMetod(problemPrzesuwanka, queueSolution);
             DisplaySolution(problemPrzesuwanka, result);
-            TreeSearch.countOfSteps = 0;*/
+            TreeSearch.countOfSteps = 0;
 
             Console.WriteLine("\nSolving with PriorityQueueFringe...");
             var priorityQueueSolution = new QueueFringe<Node<byte[,]>>();

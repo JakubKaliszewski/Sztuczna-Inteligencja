@@ -13,7 +13,7 @@ namespace Przesuwanka
             while (!fringe.IsEmpty)
             {
                 countOfSteps++;
-                Console.Write(".");
+                //Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -37,7 +37,7 @@ namespace Przesuwanka
             while (!fringe.IsEmpty)
             {
                 countOfSteps++;
-                Console.Write(".");
+               // Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -62,7 +62,7 @@ namespace Przesuwanka
             while (!fringe.IsEmpty)
             {
                 countOfSteps++;
-                Console.Write(".");
+                //Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
