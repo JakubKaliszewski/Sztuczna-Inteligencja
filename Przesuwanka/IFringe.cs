@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Przesuwanka
+﻿namespace Przesuwanka
 {
-    interface IFringe<Element>
+    internal interface IFringe<Element>
     {
-        void Add(Element element);
         bool IsEmpty { get; }
+        void Add(Element element);
         Element Pop();
     }
 }

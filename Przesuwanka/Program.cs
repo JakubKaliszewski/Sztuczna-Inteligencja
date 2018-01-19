@@ -1,42 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Przesuwanka
 {
-    class Program
+    internal class Program
     {
-        static byte[,] generateState(byte size) //Metoda na wygenerowanie tablicy wielowymiarowej, [0...size*size]
+        private static byte[,]
+            generateState(byte size) //Metoda na wygenerowanie tablicy wielowymiarowej, [0...size*size]
         {
-            byte[,] tmpTable = new byte[size, size];
-            byte[] posibleNumbers = new byte[size * size];
+            var tmpTable = new byte[size, size];
+            var posibleNumbers = new byte[size * size];
 
-            for (int i = 0; i < size * size; i++)
-            {
-                posibleNumbers[i] = (byte) (i + 1);
-            }
+            for (var i = 0; i < size * size; i++) posibleNumbers[i] = (byte) (i + 1);
 
             posibleNumbers[size * size - 1] = 0;
 
-            int IndexnumberInPosibleNumbers = 0;
-            for (int i = 0; i < tmpTable.GetLength(0); i++)
+            var IndexnumberInPosibleNumbers = 0;
+            for (var i = 0; i < tmpTable.GetLength(0); i++)
+            for (var j = 0; j < tmpTable.GetLength(1); j++)
             {
-                for (int j = 0; j < tmpTable.GetLength(1); j++)
-                {
-                    tmpTable[i, j] = posibleNumbers[IndexnumberInPosibleNumbers];
-                    IndexnumberInPosibleNumbers++;
-                }
+                tmpTable[i, j] = posibleNumbers[IndexnumberInPosibleNumbers];
+                IndexnumberInPosibleNumbers++;
             }
 
             return tmpTable;
         }
 
-        static byte[,] mixGeneratedState(byte[,] table, byte numberOfMixes)
+        private static byte[,] mixGeneratedState(byte[,] table, byte numberOfMixes)
         {
             byte n1, m1, n2, m2, tmpValue;
-            Random rnd = new Random();
+            var rnd = new Random();
 
             for (byte i = 0; i < numberOfMixes; i++)
             {
@@ -53,8 +45,11 @@ namespace Przesuwanka
             return table;
         }
 
-        public static void DisplaySolution(Node<byte[,]> result)
+        public static void DisplaySolution(Przesuwanka przesuwanka, Node<byte[,]> result)
         {
+            Console.WriteLine();
+            showState(przesuwanka.InitialState);
+
             if (result == null)
             {
                 Console.WriteLine("\nNo solutions!");
@@ -67,85 +62,64 @@ namespace Przesuwanka
             }
         }
 
-        static void showState(byte[,] table)
+        private static void showState(byte[,] table)
         {
-            for (int i = 0; i < table.GetLength(0); i++)
+            for (var i = 0; i < table.GetLength(0); i++)
             {
                 Console.Write("[ ");
-                for (int j = 0; j < table.GetLength(1); j++)
-                {
-                    Console.Write(table[i, j] + "\t");
-                }
+                for (var j = 0; j < table.GetLength(1); j++) Console.Write(table[i, j] + "\t");
 
                 Console.Write(" ]\n");
             }
         }
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            byte size = 3; //Parametr rozmiaru przesuwanki
-            byte numberOfMixes = 30; //Parametr ilosci przemieszan
+            Console.WriteLine("Podaj wymiar przesuwanki: ");
+            var size = byte.Parse(Console.ReadLine());
 
-            //byte[,] initial = new byte[size, size];
+            //var initial = new byte[size, size];
+            byte numberOfMixes = 30; //Parametr ilosci przemieszan
+            var goal = new byte[size, size];
+
+
             byte[,] initial =
             {
                 {4, 1, 3},
                 {7, 2, 6},
                 {5, 8, 0},
             };
-            byte[,] goal = new byte[size, size];
-
 
             //initial = mixGeneratedState(generateState(size), numberOfMixes);
             goal = generateState(size);
 
-            Console.WriteLine("Initial State: \n");
-            showState(initial);
-            Console.WriteLine();
 
-
-            QueueFringe<Node<byte[,]>> queue = new QueueFringe<Node<byte[,]>>();
-            //StackFringe<Node<byte[,]>> stack = new StackFringe<Node<byte[,]>>();
-
-            Console.WriteLine("Wybierz metodę rozwiązania:\n1. wgłąb,\n2. wszerz,\n3. best-first search,\n4. A*.");
-            int choose = int.Parse(Console.ReadLine());
-            Przesuwanka PrzesuwankaGame = new Przesuwanka(initial, goal);
+            var problemPrzesuwanka = new Przesuwanka(initial, goal);
             Node<byte[,]> result;
 
-            switch (choose)
-            {
-                case 1:
-                {
-                    StackFringe<Node<byte[,]>> stackSolution = new StackFringe<Node<byte[,]>>();
-                    result = TreeSearch.TreeSearchMetod(PrzesuwankaGame, stackSolution);
-                    DisplaySolution(result);
-                    break;
-                }
+/*            Console.WriteLine("\nSolving with StackFringe...");
+            var stackSolution = new StackFringe<Node<byte[,]>>();
+            result = TreeSearch.TreeSearchMetod(problemPrzesuwanka, stackSolution);
+            DisplaySolution(problemPrzesuwanka, result);
+            TreeSearch.countOfSteps = 0;*/
 
-                case 2:
-                {
-                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
-                    result = TreeSearch.TreeSearchMetod(PrzesuwankaGame, queueSolution);
-                    DisplaySolution(result);
-                    break;
-                }
+/*            Console.WriteLine("\nSolving with QueueFringe...");
+            var queueSolution = new QueueFringe<Node<byte[,]>>();
+            result = TreeSearch.TreeSearchMetod(problemPrzesuwanka, queueSolution);
+            DisplaySolution(problemPrzesuwanka, result);
+            TreeSearch.countOfSteps = 0;*/
 
-                case 3:
-                {
-                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
-                    result = TreeSearch.TreeSearchPriorityQueue(PrzesuwankaGame, queueSolution);
-                    DisplaySolution(result);
-                    break;
-                }
+            Console.WriteLine("\nSolving with PriorityQueueFringe...");
+            var priorityQueueSolution = new QueueFringe<Node<byte[,]>>();
+            result = TreeSearch.TreeSearchPriorityQueue(problemPrzesuwanka, priorityQueueSolution);
+            DisplaySolution(problemPrzesuwanka, result);
+            TreeSearch.countOfSteps = 0;
 
-                case 4:
-                {
-                    QueueFringe<Node<byte[,]>> queueSolution = new QueueFringe<Node<byte[,]>>();
-                    result = TreeSearch.TreeSearchPriorityQueue(PrzesuwankaGame, queueSolution);
-                    DisplaySolution(result);
-                    break;
-                }
-            }
+            Console.WriteLine("\nSolving with AStarFringe...");
+            var AStarSolution = new QueueFringe<Node<byte[,]>>();
+            result = TreeSearch.TreeSearchAStar(problemPrzesuwanka, AStarSolution);
+            DisplaySolution(problemPrzesuwanka, result);
+            TreeSearch.countOfSteps = 0;
         }
     }
 }

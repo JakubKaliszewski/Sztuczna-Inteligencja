@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Przesuwanka
 {
-    class StackFringe<Element> : IFringe<Element>
+    internal class StackFringe<Element> : IFringe<Element>
     {
-        private Stack<Element> stack = new Stack<Element>();
+        private readonly Stack<Element> stack = new Stack<Element>();
 
-        public bool IsEmpty
-        {
-            get { return stack.Count == 0; }
-        }
+        public bool IsEmpty => stack.Count == 0;
 
         public void Add(Element element)
         {

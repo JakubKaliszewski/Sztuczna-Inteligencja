@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Przesuwanka
 {
-    class Node<State>
+    internal class Node<State>
     {
-        public State StateOfNode { get; private set; }
-        private Node<State> parent;
+        private readonly Node<State> parent;
 
         public Node(State state, Node<State> parent)
         {
-            this.StateOfNode = state;
+            StateOfNode = state;
             this.parent = parent;
         }
+
+        public State StateOfNode { get; }
 
 
         public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State, State, bool> Compare)
@@ -27,7 +24,7 @@ namespace Przesuwanka
                 return true;
             }
 
-            if (this.parent == null) //Dalej juz nie moge, wiec nie wystapil
+            if (parent == null) //Dalej juz nie moge, wiec nie wystapil
             {
                 Debug.WriteLine("False");
                 return false;
