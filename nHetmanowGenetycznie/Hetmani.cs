@@ -56,11 +56,11 @@ namespace nHetmanowGenetycznie
 
         protected override float Przystosowanie(byte[] osobnik)
         {
-            int maxSzachowan = 56;
+            float maxSzachowan = 56;
 
             int rozmiarOsobnika = osobnik.Length;
 
-            int szachowania = 0;
+            float szachowania = 0;
             szachowania += SprawdzPoziomo(osobnik);
             for (byte kolumna = 0; kolumna < rozmiarOsobnika; kolumna++)
             {
@@ -80,8 +80,8 @@ namespace nHetmanowGenetycznie
                         szachowania++;
                 }
             }
-
-            return maxSzachowan - szachowania / maxSzachowan;
+            float zwracana = (maxSzachowan - szachowania) / maxSzachowan;
+            return zwracana;
         }
 
         private int SprawdzPoziomo(byte[] osobnik)

@@ -47,6 +47,7 @@ namespace nHetmanowGenetycznie
 
             for (int i = 0; i < RozmiarPopulacji; i++)//ponieważ nowaPopulacja nie posiada wyznaczonego przystosowania
                 przystosowanie[i] = Przystosowanie(populacja[i]);
+            Console.WriteLine("Nie znaleziono rozwiązania - wyświetlę najlepsze!");
             
             return populacja[Koniec(true, przystosowanie)];
         }

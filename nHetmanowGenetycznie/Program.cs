@@ -25,7 +25,6 @@ namespace nHetmanowGenetycznie
                     if (rezultat[kolumna] == wiersz)
                     {
                         Console.Write('\u25A0' + " ");
-                        //Console.Write('H' + " ");
                     }
                     else Console.Write("  ");
                 }
