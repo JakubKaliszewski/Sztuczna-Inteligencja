@@ -10,7 +10,7 @@ namespace nHetmanowGenetycznie
         {
             RozmiarPopulacji = rozmiar;
         }
-
+        
         protected override byte[][] LosowaPopulacja(int rozmiar)
         {
             byte[][] zwracanaPopulacja = new byte[rozmiar][];
@@ -19,7 +19,7 @@ namespace nHetmanowGenetycznie
 
             for (int osobnik = 0; osobnik < rozmiar; osobnik++)
             {
-                for (int i = 0; i < rozmiar; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     przykladowyOsobnik[i] = (byte)losowa.Next(0, 8);
                 }
@@ -102,12 +102,32 @@ namespace nHetmanowGenetycznie
         protected override void Krzyzuj(byte[] osobnik1, byte[] osobnik2, out byte[] nowyOsobnik1,
             out byte[] nowyOsobnik2)
         {
-            throw new NotImplementedException();
+            nowyOsobnik1 = new byte[8];
+            nowyOsobnik2 = new byte[8];
+            
+            Random losowa = new Random();
+            int wylosowana = losowa.Next(0, 8);
+
+            for (int index = 0; index < wylosowana; index++)
+            {
+                nowyOsobnik1[index] = osobnik1[index];
+                nowyOsobnik2[index] = osobnik2[index];
+            }
+            for (int index = wylosowana; index < 8; index++)
+            {
+                nowyOsobnik1[index] = osobnik2[index];
+                nowyOsobnik2[index] = osobnik1[index];
+            }
         }
 
         protected override byte[] Mutacja(byte[] osobnik)
         {
-            throw new NotImplementedException();
+            Random losowa = new Random();
+            int losowyIndex = losowa.Next(0, 8);
+            byte losowaWartosc = (byte) losowa.Next(0, 8);
+
+            osobnik[losowyIndex] = losowaWartosc;
+            return osobnik;
         }
     }
 }
