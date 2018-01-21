@@ -10,31 +10,23 @@ namespace nHetmanowGenetycznie
         {
             RozmiarPopulacji = rozmiar;
         }
-        
+
         protected override byte[][] LosowaPopulacja(int rozmiar)
         {
             byte[][] zwracanaPopulacja = new byte[rozmiar][];
-            byte[] przykladowyOsobnik = {0, 1, 2, 3, 4, 5, 6, 7};
+            byte[] przykladowyOsobnik = new byte[8];
             Random losowa = new Random();
-            const int iloscLosowan = 30;
 
             for (int osobnik = 0; osobnik < rozmiar; osobnik++)
             {
-                for (int i = 0; i < iloscLosowan; i++)
+                for (int i = 0; i < rozmiar; i++)
                 {
-                    byte tymczasowaDoZamiany;
-                    int wylosowana1, wylosowana2;
-
-                    wylosowana1 = losowa.Next(1, 8);
-                    wylosowana2 = losowa.Next(1, 8);
-
-                    tymczasowaDoZamiany = przykladowyOsobnik[wylosowana1];
-                    przykladowyOsobnik[wylosowana1] = przykladowyOsobnik[wylosowana2];
-                    przykladowyOsobnik[wylosowana2] = tymczasowaDoZamiany;
-                    zwracanaPopulacja[osobnik] = przykladowyOsobnik;
+                    przykladowyOsobnik[i] = (byte)losowa.Next(0, 8);
                 }
+
+                zwracanaPopulacja[osobnik] = przykladowyOsobnik;
             }
-        
+
             return zwracanaPopulacja;
         }
 
@@ -49,21 +41,17 @@ namespace nHetmanowGenetycznie
 
                 return -1;
             }
-            else
+
+            int maxIndex = 0;
+            for (int index = 0; index < przystosowanie.Length; index++)
             {
-                int maxIndex = 0;
-                for (int index = 0; index < przystosowanie.Length; index++)
+                if (przystosowanie[index] > przystosowanie[maxIndex])
                 {
-                    if (przystosowanie[index] > przystosowanie[maxIndex])
-                    {
-                        maxIndex = index;
-                    }
+                    maxIndex = index;
                 }
-
-                return maxIndex;
             }
-            
 
+            return maxIndex;
         }
 
         protected override float Przystosowanie(byte[] osobnik)
@@ -95,7 +83,7 @@ namespace nHetmanowGenetycznie
 
             return maxSzachowan - szachowania / maxSzachowan;
         }
-        
+
         private int SprawdzPoziomo(byte[] osobnik)
         {
             int szachowania = 0;
@@ -111,7 +99,8 @@ namespace nHetmanowGenetycznie
             return szachowania;
         }
 
-        protected override void Krzyzuj(byte[] osobnik1, byte[] osobnik2, out byte[] nowyOsobnik1, out byte[] nowyOsobnik2)
+        protected override void Krzyzuj(byte[] osobnik1, byte[] osobnik2, out byte[] nowyOsobnik1,
+            out byte[] nowyOsobnik2)
         {
             throw new NotImplementedException();
         }

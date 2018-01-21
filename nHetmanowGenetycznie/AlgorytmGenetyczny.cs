@@ -45,6 +45,9 @@ namespace nHetmanowGenetycznie
                 liczbaIteracji--;
             }
 
+            for (int i = 0; i < RozmiarPopulacji; i++)//ponieważ nowaPopulacja nie posiada wyznaczonego przystosowania
+                przystosowanie[i] = Przystosowanie(populacja[i]);
+            
             return populacja[Koniec(true, przystosowanie)];
         }
 
