@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace nHetmanowGenetycznie
@@ -37,14 +38,77 @@ namespace nHetmanowGenetycznie
             return zwracanaPopulacja;
         }
 
-        protected override byte[] Koniec(bool bestPossible = false)
+        protected override int Koniec(bool bestPossible, float[] przystosowanie)
         {
-            throw new NotImplementedException();
+            if (bestPossible == false)
+            {
+                for (int index = 0; index < przystosowanie.Length; index++)
+                {
+                    if (przystosowanie[index] == 1.0) return index;
+                }
+
+                return -1;
+            }
+            else
+            {
+                int maxIndex = 0;
+                for (int index = 0; index < przystosowanie.Length; index++)
+                {
+                    if (przystosowanie[index] > przystosowanie[maxIndex])
+                    {
+                        maxIndex = index;
+                    }
+                }
+
+                return maxIndex;
+            }
+            
+
         }
 
         protected override float Przystosowanie(byte[] osobnik)
         {
-            throw new NotImplementedException();
+            int maxSzachowan = 56;
+
+            int rozmiarOsobnika = osobnik.Length;
+
+            int szachowania = 0;
+            szachowania += SprawdzPoziomo(osobnik);
+            for (byte kolumna = 0; kolumna < rozmiarOsobnika; kolumna++)
+            {
+                for (int wartosc = 1; wartosc + kolumna < rozmiarOsobnika; wartosc++) //skos prawo
+                {
+                    if (osobnik[kolumna + wartosc] == osobnik[kolumna] + wartosc)
+                        szachowania++;
+                    if (osobnik[kolumna + wartosc] == osobnik[kolumna] - wartosc)
+                        szachowania++;
+                }
+
+                for (int wartosc = 1; kolumna - wartosc > 0; wartosc++) //skos w lewo
+                {
+                    if (osobnik[kolumna - wartosc] == osobnik[kolumna] + wartosc)
+                        szachowania++;
+                    if (osobnik[kolumna - wartosc] == osobnik[kolumna] - wartosc)
+                        szachowania++;
+                }
+            }
+
+            return maxSzachowan - szachowania / maxSzachowan;
+        }
+        
+        private int SprawdzPoziomo(byte[] osobnik)
+        {
+            int szachowania = 0;
+            byte rozmiarOsobnika = (byte) osobnik.Length;
+            List<byte> odwiedzone = new List<byte>();
+
+            for (int kolumna = 0; kolumna < rozmiarOsobnika; kolumna++)
+            {
+                if (odwiedzone.Contains(osobnik[kolumna])) szachowania++;
+                odwiedzone.Add(osobnik[kolumna]);
+            }
+
+            return szachowania;
         }
 
         protected override void Krzyzuj(byte[] osobnik1, byte[] osobnik2, out byte[] nowyOsobnik1, out byte[] nowyOsobnik2)

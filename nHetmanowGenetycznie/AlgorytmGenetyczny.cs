@@ -5,7 +5,7 @@ namespace nHetmanowGenetycznie
     public abstract class AlgorytmGenetyczny<TypOsobnika>
     {
         protected abstract TypOsobnika[] LosowaPopulacja(int rozmiar);
-        protected abstract TypOsobnika Koniec(bool bestPossible = false);
+        protected abstract int Koniec(bool bestPossible, float[] przystosowanie);
         protected abstract float Przystosowanie(TypOsobnika osobnik);
 
         protected abstract void Krzyzuj(TypOsobnika osobnik1, TypOsobnika osobnik2, out TypOsobnika nowyOsobnik1,
@@ -27,10 +27,10 @@ namespace nHetmanowGenetycznie
             {
                 for (int i = 0; i < RozmiarPopulacji; i++)
                     przystosowanie[i] = Przystosowanie(populacja[i]);
-
-                TypOsobnika wynik = Koniec();
-                if (wynik != null)
-                    return wynik;
+ 
+                int wynik = Koniec(false, przystosowanie);
+                if (wynik != -1)
+                    return populacja[wynik];
 
                 LosowanieDoKrzyzowania(przystosowanie, rodzice);
                 TypOsobnika[] nowaPopulacja = new TypOsobnika[RozmiarPopulacji];
@@ -45,7 +45,7 @@ namespace nHetmanowGenetycznie
                 liczbaIteracji--;
             }
 
-            return Koniec(true);
+            return populacja[Koniec(true, przystosowanie)];
         }
 
         void LosowanieDoKrzyzowania(float[] przystosowanie, int[] rodzice)
