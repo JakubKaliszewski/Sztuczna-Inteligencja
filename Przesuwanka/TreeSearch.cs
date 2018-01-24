@@ -20,7 +20,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare)
                     ) //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps++));
             }
 
             return null;
@@ -42,7 +42,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps++));
             }
 
             return null;
@@ -65,7 +65,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps++));
             }
 
             return null;
