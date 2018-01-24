@@ -7,12 +7,14 @@ namespace Przesuwanka
     {
         private readonly Node<State> parent;
 
-        public Node(State state, Node<State> parent)
+        public Node(State state, Node<State> parent, int count)
         {
             StateOfNode = state;
             this.parent = parent;
+            this.CountOfSteps = count;
         }
-
+        
+        public int CountOfSteps { get; set; }
         public State StateOfNode { get; }
 
 

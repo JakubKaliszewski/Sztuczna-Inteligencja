@@ -4,16 +4,12 @@ namespace Przesuwanka
 {
     internal static class TreeSearch
     {
-        public static int countOfSteps;
-
         public static Node<State> TreeSearchMetod<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {
-            fringe.Add(new Node<State>(problem.InitialState, null)); ///tworzy root na stosie
+            fringe.Add(new Node<State>(problem.InitialState, null, 1)); ///tworzy root na stosie
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                //Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -24,7 +20,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare)
                     ) //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
             }
 
             return null;
@@ -32,12 +28,10 @@ namespace Przesuwanka
 
         public static Node<State> TreeSearchPriorityQueue<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {
-            fringe.Add(new Node<State>(problem.InitialState, null)); ///tworzy root na stosie
+            fringe.Add(new Node<State>(problem.InitialState, null, 1)); ///tworzy root na stosie
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-               // Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -48,7 +42,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
             }
 
             return null;
@@ -57,12 +51,10 @@ namespace Przesuwanka
 
         public static Node<State> TreeSearchAStar<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {
-            fringe.Add(new Node<State>(problem.InitialState, null)); ///tworzy root na stosie
+            fringe.Add(new Node<State>(problem.InitialState, null, 1)); ///tworzy root na stosie
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                //Console.Write(".");
 
                 var node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -73,7 +65,7 @@ namespace Przesuwanka
                     /// już nie wystąpił, wywołując OnPathToRoot,
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
-                        fringe.Add(new Node<State>(actualState, node));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
             }
 
             return null;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Przesuwanka
 {
@@ -45,7 +46,7 @@ namespace Przesuwanka
             return table;
         }
 
-        public static void DisplaySolution(Przesuwanka przesuwanka, Node<byte[,]> result)
+        public static void DisplaySolution(Przesuwanka przesuwanka, Node<byte[,]> result, Stopwatch stoper)
         {
             Console.WriteLine();
             showState(przesuwanka.InitialState);
@@ -58,7 +59,8 @@ namespace Przesuwanka
             {
                 Console.WriteLine("\nGoal State: \n");
                 showState(result.StateOfNode);
-                Console.WriteLine("\nSteps: " + TreeSearch.countOfSteps);
+                Console.WriteLine("\nSteps: " + result.CountOfSteps);
+                Console.WriteLine("Czas: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
             }
         }
 
@@ -103,24 +105,30 @@ namespace Przesuwanka
             result = TreeSearch.TreeSearchMetod(problemPrzesuwanka, stackSolution);
             DisplaySolution(problemPrzesuwanka, result);
             TreeSearch.countOfSteps = 0;*/
-
+            
             Console.WriteLine("\nSolving with QueueFringe...");
+            
             var queueSolution = new QueueFringe<Node<byte[,]>>();
+            Stopwatch stoper = System.Diagnostics.Stopwatch.StartNew();
             result = TreeSearch.TreeSearchMetod(problemPrzesuwanka, queueSolution);
-            DisplaySolution(problemPrzesuwanka, result);
-            TreeSearch.countOfSteps = 0;
+            stoper.Stop();
+            DisplaySolution(problemPrzesuwanka, result, stoper);
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with PriorityQueueFringe...");
             var priorityQueueSolution = new QueueFringe<Node<byte[,]>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchPriorityQueue(problemPrzesuwanka, priorityQueueSolution);
-            DisplaySolution(problemPrzesuwanka, result);
-            TreeSearch.countOfSteps = 0;
+            DisplaySolution(problemPrzesuwanka, result,stoper);
+            stoper.Stop();
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with AStarFringe...");
             var AStarSolution = new QueueFringe<Node<byte[,]>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchAStar(problemPrzesuwanka, AStarSolution);
-            DisplaySolution(problemPrzesuwanka, result);
-            TreeSearch.countOfSteps = 0;
+            DisplaySolution(problemPrzesuwanka, result,stoper);
+            stoper.Stop();
         }
     }
 }
