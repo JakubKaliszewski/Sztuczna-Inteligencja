@@ -60,7 +60,7 @@ namespace Przesuwanka
                 Console.WriteLine("\nGoal State: \n");
                 showState(result.StateOfNode);
                 Console.WriteLine("\nSteps: " + result.CountOfSteps);
-                Console.WriteLine("Czas: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
+                Console.WriteLine("Time: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
             }
         }
 

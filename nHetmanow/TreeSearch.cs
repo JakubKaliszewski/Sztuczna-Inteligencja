@@ -4,17 +4,12 @@ namespace nHetmans
 {
     static class TreeSearch
     {
-        public static int countOfSteps;
-
         public static Node<State> TreeSearchMetod<State>(IProblem<State> problem, IFringe<Node<State>> fringe)
         {
             fringe.Add(new Node<State>(problem.InitialState, null)); ///tworzy root na stosie
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
-
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
                 {
@@ -33,7 +28,7 @@ namespace nHetmans
                         //problem.showState(actualState);
                         // Console.ReadKey();
                         //Console.WriteLine();
-                        fringe.Add(new Node<State>(actualState, node));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps++));
                     }
                 }
             }
@@ -47,8 +42,6 @@ namespace nHetmans
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
 
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -63,7 +56,7 @@ namespace nHetmans
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        fringe.Add(new Node<State>(actualState, node));
+                        fringe.Add(new Node<State>(actualState, node,node.CountOfSteps++));
                     }
                 }
             }
@@ -77,8 +70,6 @@ namespace nHetmans
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
 
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -95,7 +86,7 @@ namespace nHetmans
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps));
+                        fringe.Add(new Node<State>(actualState, node, node.CountOfSteps++));
                     }
                 }
             }

@@ -13,6 +13,7 @@ namespace nHetmans
         {
             StateOfNode = state;
             this.parent = parent;
+            CountOfSteps = 1;
         }
 
         public Node(State state, Node<State> parent, int steps)

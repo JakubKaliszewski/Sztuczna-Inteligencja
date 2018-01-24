@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace nHetmans
 {
     internal class Program
     {
-        public static void DisplaySolution(Hetmans problemHetmans, Node<byte[]> result)
+        public static void DisplaySolution(Hetmans problemHetmans, Node<byte[]> result, Stopwatch stoper)
         {
             problemHetmans.ShowState(problemHetmans.InitialState);
 
@@ -17,7 +18,8 @@ namespace nHetmans
             {
                 Console.WriteLine("Goal State:");
                 ShowState(result.StateOfNode);
-                Console.WriteLine("\nSteps: " + TreeSearch.countOfSteps);
+                Console.WriteLine("\nSteps: " + result.CountOfSteps);
+                Console.WriteLine("Time: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
                 Console.WriteLine("---------------------------------------------------------------------------");
             }
         }
@@ -64,27 +66,36 @@ namespace nHetmans
 
             Console.WriteLine("\nSolving with StackFringe...");
             StackFringe<Node<byte[]>> stackSolution = new StackFringe<Node<byte[]>>();
+            Stopwatch stoper = Stopwatch.StartNew();
             result = TreeSearch.TreeSearchMetod(problemHetmans, stackSolution);
-            DisplaySolution(problemHetmans, result);
-            TreeSearch.countOfSteps = 0;
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with QueueFringe...");
             QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchMetod(problemHetmans, queueSolution);
-            DisplaySolution(problemHetmans, result);
-            TreeSearch.countOfSteps = 0;
-
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+            stoper.Reset();
+            
+            
             Console.WriteLine("\nSolving with PriorityQueueFringe...");
             QueueFringe<Node<byte[]>> priorityQueueSolution = new QueueFringe<Node<byte[]>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchPriorityQueue(problemHetmans, priorityQueueSolution);
-            DisplaySolution(problemHetmans, result);
-            TreeSearch.countOfSteps = 0;
-
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+            stoper.Reset();
+            
             Console.WriteLine("\nSolving with AStarFringe...");
             QueueFringe<Node<byte[]>> AStarSolution = new QueueFringe<Node<byte[]>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchAStar(problemHetmans, AStarSolution);
-            DisplaySolution(problemHetmans, result);
-            TreeSearch.countOfSteps = 0;
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+
         }
     }
 }
