@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace nHetmanowGenetycznie
 {
     internal class Program
     {
-        public static void PokazRezultat(byte[] rezultat)
+        public static void PokazRezultat(byte[] rezultat, Stopwatch stoper)
         {
             Console.WriteLine();
             byte rozmiar = (byte) rezultat.GetLength(0);
@@ -31,8 +32,10 @@ namespace nHetmanowGenetycznie
 
                 Console.Write("\n");
             }
+
+            Console.WriteLine("Czas: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
         }
-        
+
         public static void Main()
         {           
         
@@ -45,8 +48,10 @@ namespace nHetmanowGenetycznie
             
             
             Hetmani problemHetmani = new Hetmani(rozmiarPopulacji);
+            Stopwatch stoper = System.Diagnostics.Stopwatch.StartNew();   
             var rezultat =  problemHetmani.Szukaj(liczbaIteracji);
-            PokazRezultat(rezultat);        
+            stoper.Stop();
+            PokazRezultat(rezultat, stoper);        
         }
     }
 }
