@@ -5,7 +5,6 @@ namespace MapaRumuniiOdleglosciLiniaProsta
 {
     static class TreeSearch
     {
-        public static int countOfSteps;
 
         public static Node<State> TreeSearchMetod<State>(IProblem<State> problem, IFringe<Node<State>> fringe, Func<State,State,int> GetDistance)
         {
@@ -13,8 +12,6 @@ namespace MapaRumuniiOdleglosciLiniaProsta
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
 
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -29,7 +26,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        Node<State> nodeToAdd = new Node<State>(actualState, node);
+                        Node<State> nodeToAdd = new Node<State>(actualState, node,node.CountOfSteps++);
                         nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }
@@ -45,8 +42,6 @@ namespace MapaRumuniiOdleglosciLiniaProsta
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
 
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -63,7 +58,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        Node<State> nodeToAdd = new Node<State>(actualState, node);
+                        Node<State> nodeToAdd = new Node<State>(actualState, node, node.CountOfSteps++);
                         nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }
@@ -80,8 +75,6 @@ namespace MapaRumuniiOdleglosciLiniaProsta
 
             while (!fringe.IsEmpty)
             {
-                countOfSteps++;
-                Console.Write(".");
 
                 Node<State> node = fringe.Pop(); //zdjecie ze stosu
                 if (problem.IsGoal(node.StateOfNode)) //sprawdzenie zdjetego elementu ze stosu
@@ -98,7 +91,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        Node<State> nodeToAdd = new Node<State>(actualState, node);
+                        Node<State> nodeToAdd = new Node<State>(actualState, node, node.CountOfSteps++);
                         nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }

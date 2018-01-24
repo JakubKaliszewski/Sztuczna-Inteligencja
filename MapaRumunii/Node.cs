@@ -9,11 +9,20 @@ namespace MapaRumuniiOdleglosciLiniaProsta
         public State StateOfNode { get; private set; }
         private Node<State> parent;
         public int CurrentDistance { get; set; }
+        public int CountOfSteps { get; set; }
 
         public Node(State state, Node<State> parent)
         {
             StateOfNode = state;
             this.parent = parent;
+            CountOfSteps = 1;
+        }
+        
+        public Node(State state, Node<State> parent, int steps)
+        {
+            StateOfNode = state;
+            this.parent = parent;
+            CountOfSteps = steps;
         }
 
 

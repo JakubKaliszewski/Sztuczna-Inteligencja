@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace MapaRumuniiOdleglosciLiniaProsta
 {
     internal class Program
     {
-        private static void DisplaySolution(MapOfRomania problem, Node<City> result)
+        private static void DisplaySolution(MapOfRomania problem, Node<City> result, Stopwatch stoper)
         {
             if (result == null)
             {
@@ -12,8 +13,10 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             }
             else
             {
-                Console.WriteLine("\nRoad: \nSteps: " + TreeSearch.countOfSteps);
+                Console.WriteLine("\nRoad: \nSteps: " + result.CountOfSteps);
                 result.ShowRoad(problem.ShowState);
+                Console.WriteLine("Time: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
+                Console.WriteLine("---------------------------------------------------------------------------");
             }
         }
 
@@ -29,23 +32,35 @@ namespace MapaRumuniiOdleglosciLiniaProsta
 
             Console.WriteLine("\nSolving with StackFringe...");
             StackFringe<Node<City>> stackSolution = new StackFringe<Node<City>>();
+            Stopwatch stoper = Stopwatch.StartNew();
             result = TreeSearch.TreeSearchMetod(problem, stackSolution, GetDistance);
-            DisplaySolution(problem, result);
+            stoper.Stop();
+            DisplaySolution(problem, result, stoper);
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with QueueFringe...");
             QueueFringe<Node<City>> queueSolution = new QueueFringe<Node<City>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchMetod(problem, queueSolution, GetDistance);
-            DisplaySolution(problem, result);
+            stoper.Stop();
+            DisplaySolution(problem, result,stoper);
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with PriorityQueueFringe...");
             QueueFringe<Node<City>> queuePrioritySolution = new QueueFringe<Node<City>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchPriorityQueue(problem, queuePrioritySolution, GetDistance);
-            DisplaySolution(problem, result);
+            stoper.Stop();
+            DisplaySolution(problem, result,stoper);
+            stoper.Reset();
 
             Console.WriteLine("\nSolving with AStarFringe...");
             QueueFringe<Node<City>> aStarSolution = new QueueFringe<Node<City>>();
+            stoper.Start();
             result = TreeSearch.TreeSearchAStar(problem, aStarSolution, GetDistance);
-            DisplaySolution(problem, result);
+            stoper.Stop();
+            DisplaySolution(problem, result,stoper);
+            stoper.Reset();
         }
 
         private static int GetDistance(City city, City city1)
