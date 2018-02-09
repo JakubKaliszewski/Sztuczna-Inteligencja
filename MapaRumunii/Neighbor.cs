@@ -1,4 +1,4 @@
-﻿namespace MapaRumuniiOdleglosciLiniaProsta
+﻿namespace MapaRumunii
 {
     public class Neighbor
     {

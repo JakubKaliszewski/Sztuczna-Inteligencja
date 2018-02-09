@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Runtime.Remoting.Messaging;
 
-namespace MapaRumuniiOdleglosciLiniaProsta
+namespace MapaRumunii
 {
     static class TreeSearch
     {
@@ -27,7 +26,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
                         Node<State> nodeToAdd = new Node<State>(actualState, node,node.CountOfSteps++);
-                        nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
+                        nodeToAdd.TotalDistance = node.TotalDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }
                 }
@@ -59,7 +58,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
                         Node<State> nodeToAdd = new Node<State>(actualState, node, node.CountOfSteps++);
-                        nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
+                        nodeToAdd.TotalDistance = node.TotalDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }
                 }
@@ -92,7 +91,7 @@ namespace MapaRumuniiOdleglosciLiniaProsta
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
                         Node<State> nodeToAdd = new Node<State>(actualState, node, node.CountOfSteps++);
-                        nodeToAdd.CurrentDistance = node.CurrentDistance + GetDistance(actualState, node.StateOfNode);
+                        nodeToAdd.TotalDistance = node.TotalDistance + GetDistance(actualState, node.StateOfNode);
                         fringe.Add(nodeToAdd);
                     }
                 }

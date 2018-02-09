@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapaRumuniiOdleglosciLiniaProsta
+namespace MapaRumunii
 {
     public class Map
     {

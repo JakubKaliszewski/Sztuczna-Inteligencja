@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MapaRumuniiOdleglosciLiniaProsta
+namespace MapaRumunii
 {
     class StackFringe<Element> : IFringe<Element>
     {

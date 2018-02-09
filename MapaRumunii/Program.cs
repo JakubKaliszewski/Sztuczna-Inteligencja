@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace MapaRumuniiOdleglosciLiniaProsta
+namespace MapaRumunii
 {
     internal class Program
     {
@@ -47,7 +47,8 @@ namespace MapaRumuniiOdleglosciLiniaProsta
             stoper.Reset();
 
             Console.WriteLine("\nSolving with PriorityQueueFringe...");
-            QueueFringe<Node<City>> queuePrioritySolution = new QueueFringe<Node<City>>();
+            //QueueFringe<Node<City>> queuePrioritySolution = new QueueFringe<Node<City>>();
+            PriorityQueueFringe<Node<City>> queuePrioritySolution =new PriorityQueueFringe<Node<City>>();
             stoper.Start();
             result = TreeSearch.TreeSearchPriorityQueue(problem, queuePrioritySolution, GetDistance);
             stoper.Stop();

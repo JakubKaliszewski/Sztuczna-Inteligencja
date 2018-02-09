@@ -48,7 +48,7 @@ namespace nHetmanowGenetycznie
             
             
             Hetmani problemHetmani = new Hetmani(rozmiarPopulacji);
-            Stopwatch stoper = System.Diagnostics.Stopwatch.StartNew();   
+            Stopwatch stoper = Stopwatch.StartNew();   
             var rezultat =  problemHetmani.Szukaj(liczbaIteracji);
             stoper.Stop();
             PokazRezultat(rezultat, stoper);        
