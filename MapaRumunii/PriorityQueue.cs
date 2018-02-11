@@ -5,7 +5,14 @@ namespace MapaRumunii
 {
     //sortowanie przez scalanie time: O(nlogn), mem: O(n)
     public class PriorityQueue<Element>
-    {
+    {    
+        protected Func<Element, Element, bool> LessOrGreater;
+        
+        public virtual void SetCompareMethod(Func<Element, Element, bool> compareMethod)
+        {           
+            LessOrGreater = compareMethod;            
+        }
+        
         private List<Element> ListOfNodes;
 
         public PriorityQueue()
@@ -13,13 +20,27 @@ namespace MapaRumunii
             ListOfNodes = new List<Element>();
         }
 
-        public void Add(Element element, Func<Element, Element, bool> LessOrGreater)
+        public void Add(Element element )
         {
             ListOfNodes.Add(element);
-            ListOfNodes = MergeSort(ListOfNodes, LessOrGreater);
+            ListOfNodes = MergeSort(ListOfNodes);
         }
 
-        private List<Element> MergeSort(List<Element> list, Func<Element, Element, bool> LessOrGreater)
+        public bool IsEmpty()
+        {
+            if (ListOfNodes.Count == 0) return true;
+            return false;
+        }
+
+        public Element Pop()
+        {
+            var result = ListOfNodes[0];
+            ListOfNodes.RemoveRange(0, 1);
+            return result; 
+
+        }
+
+        private List<Element> MergeSort(List<Element> list)
         {
             if (list.Count <= 1)
                 return list;
@@ -35,13 +56,13 @@ namespace MapaRumunii
                     right.Add(list[index]);
             }
 
-            left = MergeSort(left, LessOrGreater);
-            right = MergeSort(right, LessOrGreater);
+            left = MergeSort(left);
+            right = MergeSort(right);
 
-            return Merge(left, right, LessOrGreater);
+            return Merge(left, right);
         }
 
-        private List<Element> Merge(List<Element> left, List<Element> right, Func<Element, Element, bool> LessOrGreater)
+        private List<Element> Merge(List<Element> left, List<Element> right)
         {
             var result = new List<Element>();
 

@@ -1,19 +1,29 @@
-﻿namespace MapaRumunii
+﻿using System;
+
+namespace MapaRumunii
 {
-    public class PriorityQueueFringe<State> : IFringe<Node<State>>
+    public class PriorityQueueFringe<Element> : IFringe<Element>
     {
-        private PriorityQueue<State> priorityQueue = new PriorityQueue<State>();
+        private PriorityQueue<Element> priorityQueue = new PriorityQueue<Element>();
         
-        public void Add(Node<State> element)
+        public void Add(Element element)
         {
             priorityQueue.Add(element);
         }
 
-        public bool IsEmpty { get; }
+        public bool IsEmpty
+        {
+            get { return priorityQueue.IsEmpty(); }
+        }
 
-        public Node<State> Pop()
+        public Element Pop()
         {
             return priorityQueue.Pop();
+        }
+
+        public virtual void SetCompareMethod(Func<Element, Element, bool> compareMethod)
+        {
+            priorityQueue.SetCompareMethod(compareMethod);
         }
     }
 }

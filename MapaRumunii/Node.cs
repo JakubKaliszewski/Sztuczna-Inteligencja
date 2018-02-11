@@ -7,35 +7,36 @@ namespace MapaRumunii
     {
         public State StateOfNode { get; private set; }
         private Node<State> parent;
-        public int TotalDistance { get; set; }
-        public int CostToNext { get; set; }
-        public int CountOfSteps { get; set; }
+        public double TotalRoad { get; set; }
+        public double Priority { get; set; }
+        public int StepsForSolution { get; set; }
 
         public Node(State state, Node<State> parent)
         {
             StateOfNode = state;
             this.parent = parent;
-            CountOfSteps = 1;
+            StepsForSolution = 0;
         }
         
-        public Node(State state, Node<State> parent, int steps)
+        public Node(State state, Node<State> parent, int stepsForSolution, double priority)
         {
             StateOfNode = state;
             this.parent = parent;
-            CountOfSteps = steps;
+            StepsForSolution = stepsForSolution;
+            Priority = priority;
         }
 
-
-        public void ShowRoad(Action<State, int> ShowState)
+   
+        public void ShowRoad(Action<State, double> ShowState)
         {
-            ShowState(StateOfNode, this.TotalDistance);
+            ShowState(StateOfNode, this.TotalRoad);
             if (parent == null) return;
             ShowRoad(this.parent, ShowState);
         }
 
-        public void ShowRoad(Node<State> node, Action<State, int> ShowState)
+        public void ShowRoad(Node<State> node, Action<State, double> ShowState)
         {
-            ShowState(node.StateOfNode, node.TotalDistance);
+            ShowState(node.StateOfNode, node.TotalRoad);
             if (node.parent == null) return;
             ShowRoad(node.parent, ShowState);
         }

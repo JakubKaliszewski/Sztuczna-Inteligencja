@@ -11,7 +11,6 @@ namespace MapaRumunii
 
         public Map()
         {
-            Console.WriteLine("Konstruktor!");
             Cities = new List<City>();
             NamesList = new List<string>()
             {

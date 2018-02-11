@@ -8,7 +8,8 @@ namespace MapaRumunii
         bool IsGoal(State state);
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
-        IList<State> ExpandPriority(State state);
-        IList<State> ExpandAStar(State state);
+        double GetDistanceToCity(State parentCity, State nextCity);
+        double CalculateDistanceToDestinyCity(State nextCity);
+        double CalculatePriorityWithDistanceInAStraightLine(State parentCity, State nextCity);
     }
 }

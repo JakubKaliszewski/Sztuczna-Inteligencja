@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MapaRumunii
 {
@@ -19,6 +20,11 @@ namespace MapaRumunii
         public Element Pop()
         {
             return stack.Pop();
+        }
+
+        public void SetCompareMethod(Func<Element, Element, bool> compareMethod)
+        {
+            return;
         }
     }
 }
