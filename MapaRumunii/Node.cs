@@ -5,11 +5,7 @@ namespace MapaRumunii
 {
     public class Node<State>
     {
-        public State StateOfNode { get; private set; }
-        private Node<State> parent;
-        public double TotalRoad { get; set; }
-        public double Priority { get; set; }
-        public int StepsForSolution { get; set; }
+        private readonly Node<State> parent;
 
         public Node(State state, Node<State> parent)
         {
@@ -17,7 +13,7 @@ namespace MapaRumunii
             this.parent = parent;
             StepsForSolution = 0;
         }
-        
+
         public Node(State state, Node<State> parent, int stepsForSolution, double priority)
         {
             StateOfNode = state;
@@ -26,12 +22,17 @@ namespace MapaRumunii
             Priority = priority;
         }
 
-   
+        public State StateOfNode { get; }
+        public double TotalRoad { get; set; }
+        public double Priority { get; set; }
+        public int StepsForSolution { get; set; }
+
+
         public void ShowRoad(Action<State, double> ShowState)
         {
-            ShowState(StateOfNode, this.TotalRoad);
+            ShowState(StateOfNode, TotalRoad);
             if (parent == null) return;
-            ShowRoad(this.parent, ShowState);
+            ShowRoad(parent, ShowState);
         }
 
         public void ShowRoad(Node<State> node, Action<State, double> ShowState)
@@ -49,7 +50,7 @@ namespace MapaRumunii
                 return true;
             }
 
-            if (this.parent == null) //Dalej juz nie moge, wiec nie wystapil
+            if (parent == null) //Dalej juz nie moge, wiec nie wystapil
             {
                 Debug.WriteLine("False");
                 return false;

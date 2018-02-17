@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MapaRumunii
+namespace nHetmans
 {
     public class PriorityQueueFringe<Element> : IFringe<Element>
     {

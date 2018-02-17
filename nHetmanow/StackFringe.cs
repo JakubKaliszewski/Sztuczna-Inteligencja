@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace nHetmans
 {
-    class StackFringe<Element> : IFringe<Element>
+    internal class StackFringe<Element> : IFringe<Element>
     {
-        private Stack<Element> stack = new Stack<Element>();
+        private readonly Stack<Element> stack = new Stack<Element>();
 
-        public bool IsEmpty
-        {
-            get { return stack.Count == 0; }
-        }
+        public bool IsEmpty => stack.Count == 0;
 
         public void Add(Element element)
         {
@@ -19,6 +17,10 @@ namespace nHetmans
         public Element Pop()
         {
             return stack.Pop();
+        }
+
+        public void SetCompareMethod(Func<Element, Element, bool> compareMethod)
+        {
         }
     }
 }

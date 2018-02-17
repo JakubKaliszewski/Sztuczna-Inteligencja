@@ -2,12 +2,11 @@
 
 namespace MapaRumunii
 {
-    interface IFringe<Element>
+    internal interface IFringe<Element>
     {
-        void Add(Element element);
         bool IsEmpty { get; }
+        void Add(Element element);
         Element Pop();
         void SetCompareMethod(Func<Element, Element, bool> compareMethod);
     }
-    
 }

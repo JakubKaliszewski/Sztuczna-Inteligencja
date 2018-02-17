@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MapaRumunii
+namespace nHetmans
 {
     //sortowanie przez scalanie time: O(nlogn), mem: O(n)
     public class PriorityQueue<Element>

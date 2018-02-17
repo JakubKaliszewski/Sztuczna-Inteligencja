@@ -5,12 +5,6 @@ namespace MapaRumunii
     public class City
     {
         private static int number;
-        public int Xcoordinate { get; }
-        public int Ycoordinate { get; }
-
-        public int Id { get; }
-        public string Name { get; }
-        public List<Neighbor> neighborsCities { get; }
 
         public City()
         {
@@ -26,25 +20,27 @@ namespace MapaRumunii
             number++;
         }
 
+        public int Xcoordinate { get; }
+        public int Ycoordinate { get; }
+
+        public int Id { get; }
+        public string Name { get; }
+        public List<Neighbor> neighborsCities { get; }
+
         public void AddNeighbor(City cityToAdd, int distance)
         {
-            Neighbor neighbor = new Neighbor(distance, cityToAdd);
+            var neighbor = new Neighbor(distance, cityToAdd);
             neighborsCities.Add(neighbor);
         }
 
         public int GetDistance(City city)
         {
-            int distance = 0;
+            var distance = 0;
             foreach (var neighbor in neighborsCities)
-            {
                 if (neighbor.city.Name == city.Name)
-                {
                     distance = neighbor.distance;
-                }
-            }
-                      
+
             return distance;
         }
-        
     }
 }

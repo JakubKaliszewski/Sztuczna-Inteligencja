@@ -1,43 +1,37 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace nHetmans
 {
-    class Node<State>
+    internal class Node<State>
     {
-        public State StateOfNode { get; private set; }
-        private Node<State> parent;
-        public int CountOfSteps { get; set; }
+        private readonly Node<State> parent;
 
         public Node(State state, Node<State> parent)
         {
             StateOfNode = state;
             this.parent = parent;
-            CountOfSteps = 1;
+            StepsForSolution = 0;
         }
 
-        public Node(State state, Node<State> parent, int steps)
+        public Node(State state, Node<State> parent, int stepsForSolution)
         {
             StateOfNode = state;
             this.parent = parent;
-            this.CountOfSteps = steps;
+            StepsForSolution = stepsForSolution;
         }
+
+        public State StateOfNode { get; }
+        public int StepsForSolution { get; set; }
+        public int Priority { get; set; }
 
         public bool OnPathToRoot(State stateOfNode, State checkingState, Func<State, State, bool> Compare)
         {
             if (Compare(stateOfNode, checkingState)) //Stany są identyczne, 
-            {
-                Debug.WriteLine("True");
                 return true;
-            }
 
-            if (this.parent == null) //Dalej juz nie moge, wiec nie wystapil
-            {
-                Debug.WriteLine("False");
+            if (parent == null) //Dalej juz nie moge, wiec nie wystapil
                 return false;
-            }
 
-            Debug.WriteLine("Rekurencja");
             return OnPathToRoot(parent, checkingState, Compare); //Dalej szukam stanu
         }
 
@@ -45,18 +39,10 @@ namespace nHetmans
         private bool OnPathToRoot(Node<State> node, State checkingState, Func<State, State, bool> Compare)
         {
             if (Compare(node.StateOfNode, checkingState)) //Stany identyczne
-            {
-                Debug.WriteLine("True");
                 return true;
-            }
 
-            if (node.parent == null)
-            {
-                Debug.WriteLine("False");
-                return false;
-            }
+            if (node.parent == null) return false;
 
-            Debug.WriteLine("Rekurencja");
             return OnPathToRoot(node.parent, checkingState, Compare); //Dalej szukam stanu
         }
     }

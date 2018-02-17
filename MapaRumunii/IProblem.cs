@@ -2,7 +2,7 @@
 
 namespace MapaRumunii
 {
-    interface IProblem<State>
+    internal interface IProblem<State>
     {
         State InitialState { get; }
         bool IsGoal(State state);

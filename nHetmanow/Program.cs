@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace nHetmans
 {
@@ -12,14 +12,16 @@ namespace nHetmans
 
             if (result == null)
             {
-                Console.WriteLine("\nNo solutions!");
+                Console.WriteLine("\nBrak Rozwiązań!");
             }
             else
             {
-                Console.WriteLine("Goal State:");
+                Console.WriteLine("Rozwiązanie:");
                 ShowState(result.StateOfNode);
-                Console.WriteLine("\nSteps: " + result.CountOfSteps);
-                Console.WriteLine("Time: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
+                Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed.Milliseconds / 1000.0 +
+                                  " s"); //zmienna z czasem);
+                Console.WriteLine("Liczba kroków do znalezienia rozwiązania: " + TreeSearch<byte[]>.CountOfSteps);
+                Console.WriteLine("\nLiczba kroków rozwiązania: " + result.StepsForSolution);
                 Console.WriteLine("---------------------------------------------------------------------------");
             }
         }
@@ -27,13 +29,11 @@ namespace nHetmans
         public static void ShowState(byte[] state)
         {
             Console.WriteLine();
-            byte size = (byte) state.GetLength(0);
+            var size = (byte) state.GetLength(0);
 
             Console.Write("  ");
             for (byte i = 0; i < size; i++) // 0 1 2 3 4 5 6 7 - naglowek 
-            {
                 Console.Write(i + " ");
-            }
 
             Console.Write("\n"); // przejscie do wlasciwego wyswietlania tresci
 
@@ -41,61 +41,68 @@ namespace nHetmans
             {
                 Console.Write(row + " ");
                 for (byte column = 0; column < size; column++)
-                {
                     if (state[column] == row)
-                    {
                         Console.Write('\u25A0' + " ");
-                        //Console.Write('H' + " ");
-                    }
-                    else Console.Write("  ");
-                }
+                    else
+                        Console.Write("  ");
 
                 Console.Write("\n");
             }
         }
 
-        public static void Main(string[] args)
+        public static void Main()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
 
             Console.WriteLine("Podaj wymiar szachownicy: ");
-            byte size = byte.Parse(Console.ReadLine());
-            Hetmans problemHetmans = new Hetmans(size);
+            var size = byte.Parse(Console.ReadLine());
+            var problemHetmans = new Hetmans(size);
             Node<byte[]> result;
 
 
-            Console.WriteLine("\nSolving with StackFringe...");
-            StackFringe<Node<byte[]>> stackSolution = new StackFringe<Node<byte[]>>();
-            Stopwatch stoper = Stopwatch.StartNew();
-            result = TreeSearch.TreeSearchMetod(problemHetmans, stackSolution);
+            Console.WriteLine("\nRozwiązywanie za pomocą Stosu...");
+            ;
+            var stackSolution = new StackFringe<Node<byte[]>>();
+            var stoper = Stopwatch.StartNew();
+            result = TreeSearch<byte[]>.TreeSearchMethod(problemHetmans, stackSolution, Method.Stack);
             stoper.Stop();
             DisplaySolution(problemHetmans, result, stoper);
             stoper.Reset();
+            TreeSearch<byte[]>.CountOfSteps = 0;
 
-            Console.WriteLine("\nSolving with QueueFringe...");
-            QueueFringe<Node<byte[]>> queueSolution = new QueueFringe<Node<byte[]>>();
+            Console.WriteLine("\nRozwiązywanie za pomocą kolejki...");
+            var queueSolution = new QueueFringe<Node<byte[]>>();
             stoper.Start();
-            result = TreeSearch.TreeSearchMetod(problemHetmans, queueSolution);
+            result = TreeSearch<byte[]>.TreeSearchMethod(problemHetmans, queueSolution, Method.Queue);
             stoper.Stop();
             DisplaySolution(problemHetmans, result, stoper);
             stoper.Reset();
-            
-            
-            Console.WriteLine("\nSolving with PriorityQueueFringe...");
-            QueueFringe<Node<byte[]>> priorityQueueSolution = new QueueFringe<Node<byte[]>>();
-            stoper.Start();
-            result = TreeSearch.TreeSearchPriorityQueue(problemHetmans, priorityQueueSolution);
-            stoper.Stop();
-            DisplaySolution(problemHetmans, result, stoper);
-            stoper.Reset();
-            
-            Console.WriteLine("\nSolving with AStarFringe...");
-            QueueFringe<Node<byte[]>> AStarSolution = new QueueFringe<Node<byte[]>>();
-            stoper.Start();
-            result = TreeSearch.TreeSearchAStar(problemHetmans, AStarSolution);
-            stoper.Stop();
-            DisplaySolution(problemHetmans, result, stoper);
+            TreeSearch<byte[]>.CountOfSteps = 0;
 
+            Console.WriteLine("\nRozwiązywanie za pomocą BestFirstSearch (ilość konfliktów)...");
+            var priorityQueueSolution = new PriorityQueueFringe<Node<byte[]>>();
+            stoper.Start();
+            result = TreeSearch<byte[]>.TreeSearchMethod(problemHetmans, priorityQueueSolution, Method.PriorityQueue);
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+            stoper.Reset();
+            TreeSearch<byte[]>.CountOfSteps = 0;
+
+            Console.WriteLine("\nRozwiązywanie za pomocą A* (ilości konfliktów + ilość kroków)...");
+            var AStarSolution = new PriorityQueueFringe<Node<byte[]>>();
+            stoper.Start();
+            result = TreeSearch<byte[]>.TreeSearchMethod(problemHetmans, AStarSolution, Method.AStar);
+            stoper.Stop();
+            DisplaySolution(problemHetmans, result, stoper);
+            TreeSearch<byte[]>.CountOfSteps = 0;
+        }
+
+        private enum Method
+        {
+            Stack,
+            Queue,
+            PriorityQueue,
+            AStar
         }
     }
 }

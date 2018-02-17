@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace nHetmans
 {
-    class QueueFringe<Element> : IFringe<Element>
+    internal class QueueFringe<Element> : IFringe<Element>
     {
-        private Queue<Element> queue = new Queue<Element>();
+        private readonly Queue<Element> queue = new Queue<Element>();
 
-        public bool IsEmpty
-        {
-            get { return queue.Count == 0; }
-        }
+        public bool IsEmpty => queue.Count == 0;
 
         public void Add(Element element)
         {
@@ -19,6 +17,10 @@ namespace nHetmans
         public Element Pop()
         {
             return queue.Dequeue();
+        }
+
+        public void SetCompareMethod(Func<Element, Element, bool> compareMethod)
+        {
         }
     }
 }

@@ -5,14 +5,14 @@ namespace MapaRumunii
 {
     public class Map
     {
-        private List<string> NamesList;
-        private List<Tuple<int, int>> CoordinatesList;
         public List<City> Cities;
+        private readonly List<Tuple<int, int>> CoordinatesList;
+        private readonly List<string> NamesList;
 
         public Map()
         {
             Cities = new List<City>();
-            NamesList = new List<string>()
+            NamesList = new List<string>
             {
                 "Oradea",
                 "Zerind",
@@ -36,7 +36,7 @@ namespace MapaRumunii
                 "Neamt"
             };
 
-            CoordinatesList = new List<Tuple<int, int>>()
+            CoordinatesList = new List<Tuple<int, int>>
             {
                 new Tuple<int, int>(135, 17),
                 new Tuple<int, int>(94, 84),
@@ -81,15 +81,15 @@ namespace MapaRumunii
             //Hirsova 827,399
             //Eforie 878,496
 
-            for (int i = 0; i < NamesList.Count; i++)
+            for (var i = 0; i < NamesList.Count; i++)
             {
-                string name = NamesList[i];
-                int x = CoordinatesList[i].Item1;
-                int y = CoordinatesList[i].Item2;
+                var name = NamesList[i];
+                var x = CoordinatesList[i].Item1;
+                var y = CoordinatesList[i].Item2;
                 Cities.Add(new City(name, x, y));
             }
 
-           //Oradea
+            //Oradea
             Cities[0].AddNeighbor(Cities[1], 71);
             Cities[0].AddNeighbor(Cities[2], 151);
 
