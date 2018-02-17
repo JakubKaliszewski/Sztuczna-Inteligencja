@@ -18,3 +18,4 @@ Zagadnienia:
   * wszerz,
   * best-first search,
   * A*.
+4. 8-Hetmanów - rozwiązanie algorytmem Genetycznym
