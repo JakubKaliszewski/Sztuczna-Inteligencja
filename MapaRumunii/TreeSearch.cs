@@ -17,11 +17,14 @@ namespace MapaRumunii
         
         public static Node<State> TreeSearchMetod(IProblem<State> problem, IFringe<Node<State>> fringe, Enum method)
         {
-            Func<State, double> calculatePriority = newState =>
+            Func<State, double> calculatePriorityForBestFirstSearch = newState =>
                 problem.CalculateDistanceToDestinyCity(newState);
+            //odleglosc w lini prostej
 
-            Func<Node<State>, State, double> calculatePriorityWithDistanceInAStraightLine = (parent, newState) =>
-                problem.CalculatePriorityWithDistanceInAStraightLine(parent.StateOfNode, newState);
+            Func<Node<State>, State, double> calculatePriorityForAStar = (parent, newState) =>
+                problem.CalculatePriorityForAStar(parent.StateOfNode, newState);
+            //Linia prosta + odleglosc krawedziowa, pozniej dodana jest 
+            //droga juz pokonana
 
 
             fringe.SetCompareMethod(ComparePriority);
@@ -43,8 +46,8 @@ namespace MapaRumunii
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
                         Node<State> nodeToAdd = new Node<State>(actualState, node, node.StepsForSolution++,
-                            CalculatePriorityMethod(method, calculatePriority,
-                                calculatePriorityWithDistanceInAStraightLine, node, actualState));
+                            CalculatePriorityMethod(method, calculatePriorityForBestFirstSearch,
+                                calculatePriorityForAStar, node, actualState));
                         
                         nodeToAdd.TotalRoad = node.TotalRoad + problem.GetDistanceToCity(node.StateOfNode, nodeToAdd.StateOfNode);
                         fringe.Add(nodeToAdd);
@@ -56,33 +59,30 @@ namespace MapaRumunii
         }
 
         private static double CalculatePriorityMethod(Enum method,
-            Func<State, double> calculatePriority,
-            Func<Node<State>, State, double> calculatePriorityWithDistanceInAStraightLine, Node<State> parent,
+            Func<State, double> calculatePriorityBestFirstSearch,
+            Func<Node<State>, State, double> calculatePriorityForAStar, Node<State> parent,
             State newState)
         {
             switch (method)
             {
                 case Method.PriorityQueue:
                 {
-                    return calculatePriority(newState);
-                    break;
+                    return calculatePriorityBestFirstSearch(newState);//Priorytet względem odległości linii prostej do miasta docelowego
                 }
 
                 case Method.AStar:
                 {
-                    return calculatePriorityWithDistanceInAStraightLine(parent, newState);
-                    break;
-                }
+                    return parent.TotalRoad + calculatePriorityForAStar(parent, newState);
+                }// Priorytet względem Pokonanej już drogi + drogi od rodzica(do pokonania) + odległość "nowego Miasta" w linii prostej do celu
                 
                 default: return 0.0;
             }
         }
 
-        public static bool ComparePriority(Node<State> node1, Node<State> node2)
+        public static bool ComparePriority(Node<State> node1, Node<State> node2)//Metoda używana w sortowaniu
         {
-            if (node1.Priority >= node2.Priority)
-                return true;
-            return false;
+            if (node1.Priority <= node2.Priority) return true;
+            else return false;
         }
     }
 }

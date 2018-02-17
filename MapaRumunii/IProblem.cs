@@ -10,6 +10,6 @@ namespace MapaRumunii
         IList<State> Expand(State state);
         double GetDistanceToCity(State parentCity, State nextCity);
         double CalculateDistanceToDestinyCity(State nextCity);
-        double CalculatePriorityWithDistanceInAStraightLine(State parentCity, State nextCity);
+        double CalculatePriorityForAStar(State parentCity, State nextCity);
     }
 }

@@ -62,9 +62,9 @@ namespace MapaRumunii
             throw new Exception("Distance not found!");
         }
                
-        public double CalculatePriorityWithDistanceInAStraightLine(City parentCity, City nextCity)
+        public double CalculatePriorityForAStar(City parentCity, City nextCity)
         {
-            return GetDistanceToCity(parentCity, nextCity) + CalculateDistanceToDestinyCity(nextCity);
+            return CalculateDistanceToDestinyCity(nextCity) + GetDistanceToCity(parentCity, nextCity);
         }
 
         private List<City> GeneratePosisbleStates(City state)

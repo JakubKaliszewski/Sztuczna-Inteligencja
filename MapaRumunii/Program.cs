@@ -10,14 +10,13 @@ namespace MapaRumunii
         {
             if (result == null)
             {
-                Console.WriteLine("\nNo solutions!");
+                Console.WriteLine("\nBrak rozwiązań!");
             }
             else
             {
                 Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
                 Console.WriteLine("Liczba kroków do znalezienia rozwiązania: " + TreeSearch<City>.CountOfSteps);
-                Console.WriteLine("Liczba kroków dla rozwiązania: " + result.StepsForSolution);
-                Console.WriteLine("Droga:");
+                Console.WriteLine("Otrzymana Droga:");
                 result.ShowRoad(problem.ShowState);
                 Console.WriteLine("---------------------------------------------------------------------------");
             }
@@ -58,7 +57,7 @@ namespace MapaRumunii
             stoper.Reset();
 
             Console.WriteLine("\nSolving with BestFirstSearch...");
-            PriorityQueueFringe<Node<City>> queuePrioritySolution =new PriorityQueueFringe<Node<City>>();
+            PriorityQueueFringe<Node<City>> queuePrioritySolution = new PriorityQueueFringe<Node<City>>();
             stoper.Start();
             result = TreeSearch<City>.TreeSearchMetod(problem, queuePrioritySolution, Method.PriorityQueue);
             stoper.Stop();
