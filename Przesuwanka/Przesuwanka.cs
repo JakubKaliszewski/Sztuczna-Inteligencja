@@ -8,37 +8,131 @@ namespace Przesuwanka
         private readonly byte[,] goal;
 
 
-        public Przesuwanka()
+        public Przesuwanka(byte size, byte numberOfMixes)
         {
+            goal = generateState(size);
+            InitialState = mixGeneratedState(generateState(size), numberOfMixes);
+        }       
+        
+        public Przesuwanka(byte size, byte[,] initialState)
+        {
+            goal = generateState(size);
+            InitialState = initialState;
         }
 
-        public Przesuwanka(byte[,] initial, byte[,] goal)
+
+        public byte[,] InitialState { get; set; }
+        public double CountOfSteps { get; set;}
+        
+        private byte[,] generateState(byte size) //Metoda na wygenerowanie tablicy wielowymiarowej, [0...size*size]
         {
-            InitialState = initial;
-            this.goal = goal;
+            var tmpTable = new byte[size, size];
+            var posibleNumbers = new byte[size * size];
+
+            for (var i = 0; i < size * size; i++) posibleNumbers[i] = (byte) (i + 1);
+
+            posibleNumbers[size * size - 1] = 0;
+
+            var IndexnumberInPosibleNumbers = 0;
+            for (var i = 0; i < tmpTable.GetLength(0); i++)
+            for (var j = 0; j < tmpTable.GetLength(1); j++)
+            {
+                tmpTable[i, j] = posibleNumbers[IndexnumberInPosibleNumbers];
+                IndexnumberInPosibleNumbers++;
+            }
+
+            return tmpTable;
         }
 
-        public byte[,] InitialState { get; }
+        private byte[,] mixGeneratedState(byte[,] table, byte numberOfMixes)
+        {
+            var copyOfTable = CopyState(table);
+            byte n1, m1, n2, m2, tmpValue;
+            var rnd = new Random();
+
+            for (byte i = 0; i < numberOfMixes; i++)
+            {
+                n1 = (byte) rnd.Next(0, table.GetLength(0));
+                m1 = (byte) rnd.Next(0, table.GetLength(0));
+                n2 = (byte) rnd.Next(0, table.GetLength(0));
+                m2 = (byte) rnd.Next(0, table.GetLength(0));
+
+                tmpValue = table[n1, m1];
+                table[n1, m1] = table[n2, m2];
+                table[n2, m2] = tmpValue;
+            }
+
+            if (StateIsSolvable(table))
+                return table;
+            return mixGeneratedState(copyOfTable, numberOfMixes);
+        }
+
+        private bool StateIsSolvable(byte[,] state)
+        {
+          /*
+          1. rozwiązywalny gdy size jest nieparzysty oraz liczba inwersji jest parzysta
+          2. Jeżeli size jest parzysty to state jest rozwiązywalny gdy:
+             - gdy zero znajduje się w parzystym wierszu licząc od dołu(drugi od dołu itp), oraz liczba inwersji jest nieparzysta
+             - gdy zero znajduje się w nieparzystym wierszu licząc od dołu, oraz liczba inwersji jest parzysta
+          3. Dla reszty nie ma rozwiązań
+          */
+            int size = state.GetLength(0);
+            int countOfInversions = GetCountOfInversions(state);
+            if (size % 2 != 0 && countOfInversions % 2 == 0)
+                return true;
+            
+            var coordinatesOfZero = findCoordinatesOfElement(0, state);//1 zmienna to wiersz
+            var indexOfZeroFromBottom = size - coordinatesOfZero[0];
+
+            if (indexOfZeroFromBottom % 2 == 0 && countOfInversions % 2 != 0)
+                return true;
+            
+            if (indexOfZeroFromBottom % 2 != 0 && countOfInversions % 2 == 0)
+                return true;
+
+            return false;
+        }
+
+        private int GetCountOfInversions(byte[,] state)
+        {
+            int countOfInversions = 0;
+            int sizeOfState = state.GetLength(0);
+            List<byte> stateInList = stateToList(state);
+
+            for (int toCompareIndex = 0; toCompareIndex < sizeOfState - 1; toCompareIndex++)
+            {
+                if(stateInList[toCompareIndex] == 0) break;
+                
+                for (int index = toCompareIndex + 1; index < sizeOfState - 1; index++)
+                {
+                    if(stateInList[index] == 0) break;
+              
+                    if (stateInList[index] > stateInList[toCompareIndex])
+                        countOfInversions++;
+                }
+            }
+            
+            return countOfInversions;
+        }
+
+        private List<byte> stateToList(byte[,] state)
+        {
+            int size = state.GetLength(0);
+            List<byte> list = new List<byte>();
+            for (int row = 0; row < size - 1; row++)
+            {
+                for (int column = 0; column < size - 1; column++)
+                {
+                    list.Add(state[row,column]);
+                }
+            }
+
+            return list;
+        }
 
         public IList<byte[,]> Expand(byte[,] state)
         {
-            var possibleStates = createStatesToExpand(state);
-            return possibleStates;
-        }
-
-        public IList<byte[,]> ExpandPriorityQueue(byte[,] state)
-        {
-            List<byte[,]> possibleStates = createStatesToExpand(state);
-            possibleStates = sortStates(possibleStates);
-            return possibleStates;
-        }
-
-
-        public IList<byte[,]> ExpandAStar(byte[,] state)
-        {
-            var possibleStates = createStatesToExpand(state);
-            possibleStates = sortStatesAStar(possibleStates);
-            return possibleStates;
+            return createStatesToExpand(state);
         }
 
         public bool IsGoal(byte[,] state)
@@ -72,103 +166,35 @@ namespace Przesuwanka
             }
         }
 
-        private List<byte[,]> sortStatesAStar(List<byte[,]> possibleStates)
-        {
-            var returnedList = new List<byte[,]>();
-            var sizeOfPossibleStates = possibleStates.Count;
-            var statesAndConflicts = new List<Tuple<int, byte[,]>>(); //index to kolumna
-            var listOfConflicts = new List<int>();
-
-            for (var index = 0; index < sizeOfPossibleStates; index++)
-            {
-                var count = CountOfConflicts(possibleStates[index]) + CountDistancesToGoal(possibleStates[index]);
-                statesAndConflicts.Add(new Tuple<int, byte[,]>(count, possibleStates[index]));
-                listOfConflicts.Add(count);
-            }
-
-            listOfConflicts.Sort();
-
-/*            for (var column = 0; column < sizeOfPossibleStates; column++)
-                if (listOfConflicts[column] == statesAndConflicts[column].Item1)
-                    returnedList.Add(statesAndConflicts[column].Item2);*/
-            
-            for (int index = 0; index < listOfConflicts.Count; index++)
-            {
-                for (int indexOfState = 0; indexOfState < statesAndConflicts.Count; indexOfState++)
-                {
-                    if (listOfConflicts[index] == statesAndConflicts[indexOfState].Item1)
-                    {
-                        returnedList.Add(statesAndConflicts[indexOfState].Item2);
-                        statesAndConflicts[indexOfState] = new Tuple<int, byte[,]>(Int32.MaxValue, statesAndConflicts[indexOfState].Item2);
-                    }
-                }
-            }
-
-
-            return returnedList;
-        }
-
-
-        private List<byte[,]> sortStates(List<byte[,]> possibleStates)
-        {
-            var returnedList = new List<byte[,]>();
-            int conflicts = 0;
-            //var sizeOfPossibleStates = possibleStates.Count;
-            List<Tuple<int,byte[,]>> statesAndConflicts = new List<Tuple<int, byte[,]>>(); //index to kolumna
-            List<int> listOfConflicts = new List<int>();
-
-            foreach (var state in possibleStates)
-            {
-                conflicts = CountOfConflicts(state);
-                listOfConflicts.Add(conflicts);
-                statesAndConflicts.Add(new Tuple<int, byte[,]>(conflicts,state));
-                conflicts = 0;
-            }
-            
-            listOfConflicts.Sort();
-
-            for (int index = 0; index < listOfConflicts.Count; index++)
-            {
-                for (int indexOfState = 0; indexOfState < statesAndConflicts.Count; indexOfState++)
-                {
-                    if (listOfConflicts[index] == statesAndConflicts[indexOfState].Item1)
-                    {
-                        returnedList.Add(statesAndConflicts[indexOfState].Item2);
-                        statesAndConflicts[indexOfState] = new Tuple<int, byte[,]>(Int32.MaxValue, statesAndConflicts[indexOfState].Item2);
-                    }
-                }
-            }
-
-
-            return returnedList;
-        }
-
-        private int CountOfConflicts(byte[,] possibleState)
+        public int CountOfConflicts(byte[,] possibleState)
         {
             var conflicts = 0;
             var size = possibleState.GetLength(0);
 
             for (var i = 0; i < size; i++)
-            for (var j = 0; j < size; j++)
-                if (goal[i, j] != possibleState[i, j])
-                    conflicts++;
-
+            {
+                for (var j = 0; j < size; j++)
+                {
+                    if (goal[i, j] != possibleState[i, j])
+                        conflicts++;
+                }
+            }
+                
             return conflicts;
         }
 
 
-        private int
-            CountDistancesToGoal(
-                byte[,] state) //Zliczyć do jednego wora liczbę pól każdej płytki względem pozycji co powinna mieć
+        public int CountDistancesToGoal(byte[,] state) //Zliczyć do jednego wora liczbę pól każdej płytki względem pozycji co powinna mieć
         {
             var sumOfDistance = 0;
-            var singleDistance = 0;
             var size = (byte) state.GetLength(0);
-
+            sumOfDistance += CountOfConflicts(state);
+            
             for (byte column = 0; column < size; column++)
-            for (byte row = 0; row < size; row++)
-                sumOfDistance += GetDistanceToTheTargetPosition(state, column, row);
-
+            {
+                for (byte row = 0; row < size; row++)
+                    sumOfDistance += GetDistanceToTheTargetPosition(state, column, row);
+            }
             return sumOfDistance;
         }
 

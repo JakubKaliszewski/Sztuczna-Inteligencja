@@ -7,14 +7,14 @@ namespace MapaRumunii
     {
         private static void DisplaySolution(MapOfRomania problem, Node<City> result, Stopwatch stoper)
         {
+            Console.Beep();
             if (result == null)
             {
                 Console.WriteLine("\nBrak rozwiązań!");
             }
             else
             {
-                Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed.Milliseconds / 1000.0 +
-                                  " s"); //zmienna z czasem);
+                Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed);//zmienna z czasem
                 Console.WriteLine("Liczba kroków do znalezienia rozwiązania: " + TreeSearch<City>.CountOfSteps);
                 Console.WriteLine("Otrzymana Droga:");
                 result.ShowRoad(problem.ShowState);

@@ -8,6 +8,7 @@ namespace nHetmans
     {
         public static void DisplaySolution(Hetmans problemHetmans, Node<byte[]> result, Stopwatch stoper)
         {
+            Console.Beep();
             problemHetmans.ShowState(problemHetmans.InitialState);
 
             if (result == null)
@@ -18,8 +19,7 @@ namespace nHetmans
             {
                 Console.WriteLine("Rozwiązanie:");
                 ShowState(result.StateOfNode);
-                Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed.Milliseconds / 1000.0 +
-                                  " s"); //zmienna z czasem);
+                Console.WriteLine("Czas poszukiwania rozwiązania: " + stoper.Elapsed); //zmienna z czasem);
                 Console.WriteLine("Liczba kroków do znalezienia rozwiązania: " + TreeSearch<byte[]>.CountOfSteps);
                 Console.WriteLine("\nLiczba kroków rozwiązania: " + result.StepsForSolution);
                 Console.WriteLine("---------------------------------------------------------------------------");
@@ -61,7 +61,6 @@ namespace nHetmans
 
 
             Console.WriteLine("\nRozwiązywanie za pomocą Stosu...");
-            ;
             var stackSolution = new StackFringe<Node<byte[]>>();
             var stoper = Stopwatch.StartNew();
             result = TreeSearch<byte[]>.TreeSearchMethod(problemHetmans, stackSolution, Method.Stack);

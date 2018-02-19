@@ -8,8 +8,8 @@ namespace Przesuwanka
         bool IsGoal(State state);
         bool Compare(State stateOfNode, State checkingState);
         IList<State> Expand(State state);
-        IList<State> ExpandPriorityQueue(State state);
-        IList<State> ExpandAStar(State state);
-        void showState(State state);
+        int CountOfConflicts(State state);
+        int CountDistancesToGoal(State state);
+        double CountOfSteps { get; set; }
     }
 }

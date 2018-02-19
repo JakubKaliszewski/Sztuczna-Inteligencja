@@ -5,19 +5,13 @@ namespace nHetmans
     internal class Node<State>
     {
         private readonly Node<State> parent;
-
+        
         public Node(State state, Node<State> parent)
         {
             StateOfNode = state;
             this.parent = parent;
-            StepsForSolution = 0;
-        }
-
-        public Node(State state, Node<State> parent, int stepsForSolution)
-        {
-            StateOfNode = state;
-            this.parent = parent;
-            StepsForSolution = stepsForSolution;
+            if(parent != null)
+                StepsForSolution = parent.StepsForSolution++;
         }
 
         public State StateOfNode { get; }

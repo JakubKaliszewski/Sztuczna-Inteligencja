@@ -7,6 +7,7 @@ namespace nHetmanowGenetycznie
     {
         public static void PokazRezultat(byte[] rezultat, Stopwatch stoper)
         {
+            Console.Beep();
             Console.WriteLine();
             byte rozmiar = (byte) rezultat.GetLength(0);
 
@@ -33,7 +34,7 @@ namespace nHetmanowGenetycznie
                 Console.Write("\n");
             }
 
-            Console.WriteLine("Czas: " + stoper.Elapsed.Milliseconds / 1000.0 + " s"); //zmienna z czasem);
+            Console.WriteLine("Czas: " + stoper.Elapsed); //zmienna z czasem);
         }
 
         public static void Main()

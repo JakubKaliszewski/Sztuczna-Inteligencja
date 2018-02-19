@@ -2,15 +2,6 @@
 
 namespace MapaRumunii
 {
-    internal enum Method
-    {
-        Stack,
-        Queue,
-        PriorityQueue,
-        AStar
-    }
-
-
     internal static class TreeSearch<State>
     {
         public static int CountOfSteps { get; set; }
@@ -61,16 +52,16 @@ namespace MapaRumunii
             Func<Node<State>, State, double> calculatePriorityForAStar, Node<State> parent,
             State newState)
         {
-            switch (method)
+            switch (method.ToString())
             {
-                case Method.PriorityQueue:
+                case ("PriorityQueue"):
                 {
                     return
                         calculatePriorityBestFirstSearch(
                             newState); //Priorytet względem odległości linii prostej do miasta docelowego
                 }
 
-                case Method.AStar:
+                case ("AStar"):
                 {
                     return parent.TotalRoad + calculatePriorityForAStar(parent, newState);
                 } // Priorytet względem Pokonanej już drogi + drogi od rodzica(do pokonania) + odległość "nowego Miasta" w linii prostej do celu

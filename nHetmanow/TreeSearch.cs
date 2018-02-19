@@ -29,7 +29,7 @@ namespace nHetmans
                     if (!node.OnPathToRoot(node.StateOfNode, actualState, problem.Compare))
                         //Wykonuje sie gdy nie ma znalezionego identycznego stanu
                     {
-                        var nodeToAdd = new Node<State>(actualState, node, node.StepsForSolution++);
+                        var nodeToAdd = new Node<State>(actualState, node);
                         nodeToAdd.Priority = CalculatePriorityMethod(method, calculatePriorityForBestFirstSearch,
                             calculatePriorityForAStar, nodeToAdd);
 
@@ -45,14 +45,14 @@ namespace nHetmans
             Func<Node<State>, int> calculatePriorityBestFirstSearch,
             Func<Node<State>, int> calculatePriorityForAStar, Node<State> newNode)
         {
-            switch (method)
+            switch (method.ToString())
             {
-                case Method.PriorityQueue:
+                case ("PriorityQueue"):
                 {
                     return calculatePriorityBestFirstSearch(newNode); //Priorytet względem ilości konfliktów
                 }
 
-                case Method.AStar:
+                case ("AStar"):
                 {
                     return calculatePriorityForAStar(newNode);
                 } // Priorytet względem ilości konfliktów + ilość kroków, im ich mniej tym stan jest bardziej obiecujący
@@ -65,14 +65,6 @@ namespace nHetmans
         {
             if (node1.Priority <= node2.Priority) return true;
             return false;
-        }
-
-        private enum Method
-        {
-            Stack,
-            Queue,
-            PriorityQueue,
-            AStar
         }
     }
 }
